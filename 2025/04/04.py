@@ -6,7 +6,7 @@ input = "input.txt"
 # File loading
 matrix = []
 row = []
-with open(sample, "r") as file:
+with open(input, "r") as file:
     lines = file.readlines()
     for line in lines:
         for char in line[:-1]:
@@ -22,14 +22,10 @@ for row in matrix:
         if row[char] == "@":
             row[char] = 1
 
-# Printing the matrix
-for r in matrix:
-    print(r)
-
 
 # Part one logic
 def part_01(data):
-    neighbors = []
+    accessablePapers = 0
     for row in range(len(data)):
         for index, value in enumerate(data[row]):
             if (
@@ -39,6 +35,18 @@ def part_01(data):
                 or index == len(data[row]) - 1
             ):
                 new_neighbours = []
+                # bottom right
+                if index != len(data[index]) - 1 and row != len(data) - 1:
+                    new_neighbours.append(data[row + 1][index + 1])
+                # bottom left
+                if index != 0 and row != len(data) - 1:
+                    new_neighbours.append(data[row + 1][index - 1])
+                # top right
+                if index != len(data[index]) - 1 and row != 0:
+                    new_neighbours.append(data[row - 1][index + 1])
+                # top left
+                if index != 0 and row != 0:
+                    new_neighbours.append(data[row - 1][index - 1])
                 # top
                 if row != 0:
                     new_neighbours.append(data[(row - 1)][index])
@@ -55,21 +63,24 @@ def part_01(data):
                 new_neighbours = [
                     # top
                     data[row - 1][index],
+                    # top left
+                    data[row - 1][index - 1],
+                    # top right
+                    data[row - 1][index + 1],
                     # right
                     data[row][index + 1],
                     # bottom
                     data[row + 1][index],
+                    # bottom left
+                    data[row + 1][index - 1],
+                    # bottom right
+                    data[row + 1][index + 1],
                     # left
                     data[row][index - 1],
                 ]
-
-                neighbors.append(
-                    ["Index:", index, "Value:", value, "Neighbors:", new_neighbours]
-                )
-    return neighbors
+            if value == 1 and sum(new_neighbours) < 4:
+                accessablePapers += 1
+    return accessablePapers
 
 
-rendered_neighbours = part_01(matrix)
-
-for row in rendered_neighbours:
-    print(row)
+print(part_01(matrix))
