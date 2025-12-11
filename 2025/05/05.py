@@ -47,9 +47,28 @@ def part_01(ingredients_f, ranges_f):
 # Part two logic
 def part_02(ranges_f):
     sum = 0
+    sorted_ranges = []
     sorted_ranges = sorted(ranges_f, key=itemgetter(0))
     for r in sorted_ranges:
         print(r)
+
+    # Deleting overlapped ranges
+    for row in range(len(sorted_ranges)):
+        for index, value in enumerate(sorted_ranges[row]):
+            if index == 1 and row != (len(sorted_ranges) - 1):
+                while sorted_ranges[row][index] > sorted_ranges[row + 1][index]:
+                    print(
+                        sorted_ranges[row][index],
+                        "has eaten row",
+                        sorted_ranges[row + 1],
+                    )
+                    del sorted_ranges[row + 1]
+                    print(sorted_ranges)
+
+    print("sorted after filtering")
+    for r in sorted_ranges:
+        print(r)
+
     for row in range(len(sorted_ranges)):
         for index, value in enumerate(sorted_ranges[row]):
             # All ranges except the last
