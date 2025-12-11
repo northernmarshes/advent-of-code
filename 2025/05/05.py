@@ -11,7 +11,7 @@ ranges = []
 fresh_indexes = []
 
 # File loading and appending lists
-with open(sample, "r") as file:
+with open(input, "r") as file:
     lines = file.readlines()
     for line in lines:
         if "-" in line:
@@ -41,81 +41,50 @@ def part_01(ingredients_f, ranges_f):
     return fresh_ingredients
 
 
-# print(part_01(ingredients, ranges), "of the available ingredient IDs are fresh.")
+print(part_01(ingredients, ranges), "of the available ingredient IDs are fresh.")
 
 
 # Part two logic
 def part_02(ranges_f):
     sum = 0
-    sorted_ranges = []
     sorted_ranges = sorted(ranges_f, key=itemgetter(0))
-    for r in sorted_ranges:
-        print(r)
 
     # Deleting overlapped ranges
     for row in range(len(sorted_ranges)):
-        for index, value in enumerate(sorted_ranges[row]):
-            if index == 1 and row != (len(sorted_ranges) - 1):
-                while sorted_ranges[row][index] > sorted_ranges[row + 1][index]:
-                    print(
-                        sorted_ranges[row][index],
-                        "has eaten row",
-                        sorted_ranges[row + 1],
-                    )
-                    del sorted_ranges[row + 1]
-                    print(sorted_ranges)
+        try:
+            for index, value in enumerate(sorted_ranges[row]):
+                if index == 1 and row != (len(sorted_ranges) - 1):
+                    while sorted_ranges[row][index] > sorted_ranges[row + 1][index]:
+                        del sorted_ranges[row + 1]
+        except IndexError:
+            pass
 
-    print("sorted after filtering")
-    for r in sorted_ranges:
-        print(r)
-
+    # Calculating number of IDs
     for row in range(len(sorted_ranges)):
         for index, value in enumerate(sorted_ranges[row]):
             # All ranges except the last
             if index == 1 and row != (len(sorted_ranges) - 1):
                 # Touching ranges
                 if sorted_ranges[row][index] == sorted_ranges[row + 1][index - 1]:
-                    print(sorted_ranges[row][index])
                     sum += (sorted_ranges[row][index]) - (sorted_ranges[row][index - 1])
-                    print("touching line")
-                    print("sum:", sum)
-                    print("\n")
                 # Normal ranges
                 if sorted_ranges[row][index] < sorted_ranges[row + 1][index - 1]:
-                    print(sorted_ranges[row][index])
                     sum += (
                         (sorted_ranges[row][index]) - (sorted_ranges[row][index - 1])
                     ) + 1
-                    print("normal line")
-                    print("sum:", sum)
-                    print("\n")
                 # Overlaping ranges
                 if sorted_ranges[row][index] > sorted_ranges[row + 1][index - 1]:
-                    print(sorted_ranges[row][index])
                     sum += (
                         (sorted_ranges[row][index]) - (sorted_ranges[row][index - 1])
                     ) + 1
                     sum += (
                         sorted_ranges[row + 1][index - 1] - sorted_ranges[row][index]
                     ) - 1
-                    print("overlaping")
-                    print("sum:", sum)
-                    print("\n")
             # Last range
             if index == 1 and row == (len(sorted_ranges)) - 1:
-                print("last index", sorted_ranges[row][index])
-                print("row", row, "index", index)
-                print("last row", sorted_ranges[row])
                 sum += (
                     (sorted_ranges[row][index]) - (sorted_ranges[row][index - 1])
                 ) + 1
-                print(
-                    "last range",
-                    (sorted_ranges[row][index]) - (sorted_ranges[row][index - 1]),
-                )
-                print("last line")
-                print("sum:", sum)
-                print("\n")
                 return sum
 
 
