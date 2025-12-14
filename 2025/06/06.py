@@ -59,22 +59,36 @@ def part_02(data):
             for i in range(len(line[:-1])):
                 row.append(line[i])
             rows.append(row)
-    # for row in rows:
-    #     print(row)
 
     # Rotating matrix
     rows = [[rows[j][i] for j in range(len(rows))] for i in range(len(rows[0]))]
 
+    # Converting numbers to int
     for row in rows:
-        row = "".join(map(str, row))
-        rows_joined.append(row)
+        for i in range(len(row)):
+            if row[i] != "+" and row[i] != "*":
+                if row[i] != " ":
+                    row[i] = int(row[i])
+                if row[i] == " ":
+                    row[i] = ""
 
-    re_compile = re.compile(r"\s+")
-    for row in rows_joined:
-        row = re_compile.sub(" ", row).strip()
-
-    for row in rows_joined:
+    for row in rows:
         print(row)
+
+    # numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    # for row in range(len(rows)):
+    #     if "*" in rows[row]:
+    #         print("gwiazdka w rzędzie")
+    #     if "+" in rows[row]:
+    #         print("plus w rzędzie")
+    #     if any(numbers == num for num in rows[row]):
+    #         print("liczby!")
+
+    # for index, value in enumerate(rows):
+
+    # for row in rows:
+    #     row = "".join(map(str, row))
+    #     rows_joined.append(row)
 
 
 print(part_02(sample_file), "is the grand total in part two.")
