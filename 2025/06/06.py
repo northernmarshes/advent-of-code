@@ -5,17 +5,14 @@ import re
 sample_file = "sample.txt"
 input_file = "input.txt"
 
-# Variables
-rows = []
-all_solutions = []
-
 
 # Part one logic
 def part_01(data):
     solution = 0
+    rows = []
     all_solutions = []
     # File loading and appending lists
-    with open(input_file, "r") as file:
+    with open(data, "r") as file:
         lines = file.readlines()
         for line in lines:
             if " " in line:
@@ -29,9 +26,9 @@ def part_01(data):
         for i in range(len(row)):
             row[i] = int(row[i])
     # Rotating matrix
-    data = [[data[j][i] for j in range(len(data))] for i in range(len(data[0]))]
+    lines = [[rows[j][i] for j in range(len(rows))] for i in range(len(rows[0]))]
     # Calculating
-    for row in data:
+    for row in lines:
         if row[-1] == "*":
             solution = math.prod(row[:-1])
             all_solutions.append(solution)
@@ -42,15 +39,15 @@ def part_01(data):
     return all_solutions
 
 
-# print(part_01(rows), "is the grand total in part one.")
+print(part_01(input_file), "is the grand total in part one.")
 
 
 # Part two logic
 def part_02(data):
-    solution = 0
     all_solutions = []
     rows = []
-    rows_joined = []
+    lines = []
+
     # File loading and appending lists
     with open(data, "r") as file:
         lines = file.readlines()
@@ -63,32 +60,37 @@ def part_02(data):
     # Rotating matrix
     rows = [[rows[j][i] for j in range(len(rows))] for i in range(len(rows[0]))]
 
-    # Converting numbers to int
+    # Joining rotated digits into numbers and stripping spaces
     for row in rows:
-        for i in range(len(row)):
-            if row[i] != "+" and row[i] != "*":
-                if row[i] != " ":
-                    row[i] = int(row[i])
-                if row[i] == " ":
-                    row[i] = ""
+        lines.append(("".join(map(str, row))).strip().replace(" ", ""))
 
-    for row in rows:
-        print(row)
+    # Adding empty line in the end
+    lines.append("")
 
-    # numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    # for row in range(len(rows)):
-    #     if "*" in rows[row]:
-    #         print("gwiazdka w rzędzie")
-    #     if "+" in rows[row]:
-    #         print("plus w rzędzie")
-    #     if any(numbers == num for num in rows[row]):
-    #         print("liczby!")
+    # Calculating
+    for index, row in enumerate(lines):
+        try:
+            if (
+                row != ""
+                and row[-1] == "+"
+                or row[-1] == "*"
+                and lines[index + 1] != ""
+            ):
+                numbers = []
+                numbers.append(int(row[:-1]))
+                numbers.append(int(lines[index + 1]))
+                if lines[index + 2] != "":
+                    numbers.append(int(lines[index + 2]))
+                    if lines[index + 3] != "":
+                        numbers.append(int(lines[index + 3]))
+                if row[-1] == "+":
+                    all_solutions.append(math.fsum(numbers))
+                if row[-1] == "*":
+                    all_solutions.append(math.prod(numbers))
+        except IndexError:
+            pass
+    solutions_sum = round(math.fsum(all_solutions))
+    return solutions_sum
 
-    # for index, value in enumerate(rows):
 
-    # for row in rows:
-    #     row = "".join(map(str, row))
-    #     rows_joined.append(row)
-
-
-print(part_02(sample_file), "is the grand total in part two.")
+print(part_02(input_file), "is the grand total in part two.")
