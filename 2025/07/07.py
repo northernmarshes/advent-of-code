@@ -5,22 +5,52 @@ input_file = "input.txt"
 cols = []
 
 with open(sample_file, "r") as file:
-    lines = [char.replace(".", " ").replace("^", "O") for char in file.readlines()]
-    cols = (list(zip(*lines)))[:][:-1]
+    lines = [char.replace(".", " ").replace("^", "0") for char in file.readlines()]
+    cols = list(map(list, zip(*lines)))[:][:-1]
 
+# Rotating the matrix
+cols = [[cols[j][i] for j in range(len(cols))] for i in range(len(cols[0]))]
 
-for col in cols:
-    print(col)
+# Adding initial beam
+for ri, row in enumerate(cols):
+    for ci, col in enumerate(row):
+        if ri == 0 and col == "S":
+            cols[ri + 1][ci] = "|"
 
 
 # Part one logic
 def part_01(data):
-    lastLineEmpty = True
-    while lastLineEmpty:
-        for col in cols:
-            for char in col:
-                pass
-                lastLineEmpty = False
+    count = 0
+    split = 0
+    while count < 12000:
+        for ri, row in enumerate(data):
+            for ci, col in enumerate(row):
+                if ri < len(data) - 1 and col == "|" and data[ri + 1][ci] == " ":
+                    data[ri + 1][ci] = "|"
+                elif col == "0":
+                    if data[ri - 1][ci] == "|":
+                        data[ri][ci + 1] = "|"
+                        data[ri][ci - 1] = "|"
+                        data[ri][ci] = "@"
+                        split += 1
+            count += 1
+    return split
 
 
 print(f"A tachyon beam is split a total of {part_01(cols)} times.")
+
+
+def part_02(data):
+    count = 0
+    while count < 5:
+        for ri, row in enumerate(data):
+            for ci, col in enumerate(row):
+                if ri < len(data) - 1 and col == "|" and data[ri + 1][ci] == " ":
+                    pass
+                if col == "0":
+                    if data[ri - 1][ci] == "|":
+                        pass
+            count += 1
+
+
+# print(f"A single tachyon particle end up on {part_02(cols)} timelines.")
