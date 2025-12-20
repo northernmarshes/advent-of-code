@@ -56,10 +56,43 @@ def part_02(data):
                         split += 1
             count += 1
 
-    # for r, row in enumerate(data):
-    #     for c, col in enumerate(data[r]):
-    #         if data[r][c] == "K":
-    #             del data[r]
+    # Adding leaf nodes
+    bottom_row = []
+    for r in range(len(data[0])):
+        bottom_row.append(" ")
+    data.append(bottom_row)
+
+    for r, row in enumerate(data):
+        for c, col in enumerate(data[r]):
+            if r == len(data) - 1 and data[r - 1][c] == "|":
+                data[r][c] = "@"
+
+    # Initial count
+    for ri, row in enumerate(cols):
+        for ci, col in enumerate(row):
+            if ri == 2 and col == "@":
+                cols[ri][ci] = "1"
+
+    # Counting ways to each node
+    for r, row in enumerate(data):
+        for c, col in enumerate(row):
+            if data[r][c] == "@":
+                node_paths = 0
+                if (
+                    data[r - 2][c - 1] != " "
+                    and data[r - 2][c - 1] != "|"
+                    and data[r - 2][c - 1] != "^"
+                ):
+                    node_paths += int(data[r - 2][c - 1])
+                if (
+                    c < len(row) - 1
+                    and data[r - 2][c + 1] != " "
+                    and data[r - 2][c + 1] != "|"
+                    and data[r - 2][c + 1] != "^"
+                    and data[r - 2][c + 1] != "^"
+                ):
+                    node_paths += int(data[r - 2][c + 1])
+                data[r][c] = str(node_paths)
 
     for row in data:
         print(row)
