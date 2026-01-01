@@ -37,7 +37,7 @@ def part_01(data):
     return split
 
 
-# print(f"A tachyon beam is split a total of {part_01(cols)} times.")
+print(f"A tachyon beam is split a total of {part_01(cols)} times.")
 
 
 def part_02(data):

@@ -33,3 +33,18 @@ def part_01(list_one, list_two):
 
 
 print(part_01(left_list, right_list), "is the total distance between the lists.")
+
+
+def part_02(list_one, list_two):
+    similarity_total = []
+    for num in list_one:
+        appearances = list_two.count(num)
+        similarity_score = num * appearances
+        similarity_total.append(similarity_score)
+
+    similarity_int = list(map(int, similarity_total))
+    similarity_sum = sum(similarity_int)
+    return similarity_sum
+
+
+print(part_02(left_list, right_list), "Is the similarity score of the two lists.")
