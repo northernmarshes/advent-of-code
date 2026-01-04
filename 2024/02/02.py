@@ -73,21 +73,18 @@ def part_02(data):
             if not dampener:
                 report_model = report[:]
                 report_model.remove(report[i])
-                print(report_model)
                 report_model_sorted_asc = sorted(report_model)
-                print(report_model_sorted_asc)
                 report_model_sorted_desc = sorted(report_model, reverse=True)
-                print(report_model_sorted_desc)
                 if (
                     report_model == report_model_sorted_asc
                     or report_model == report_model_sorted_desc
                 ):
-                    print("im removing", report[i])
+                    print("I'm removing:", report[i])
                     report.remove(report[i])
                     report.append("Y")
                     ordered_reports.append(report)
                     unordered_reports.remove(report)
-                    print("report", report, "has joined ordered ones")
+                    print("Report:", report, "has joined ordered ones.")
                     dampener = True
 
     # Checking if the differences are withing norm
@@ -96,7 +93,7 @@ def part_02(data):
         difference = [abs(report[i + 1] - report[i]) for i in range(len(report) - 1)]
         res = all(level <= 3 and level > 0 for level in difference)
         if res:
-            print("differences in", report, "are", difference, "and its fine")
+            print("Differences in", report, "are", difference, "and it's fine.")
             safe += 1
         # Checking if removing a level can fix the report
         elif ordered_reports[i][-1] == "N":
@@ -109,16 +106,17 @@ def part_02(data):
                         abs(report_model[i + 1] - report_model[i])
                         for i in range(len(report_model) - 1)
                     ]
-                    print("differences in", report_model, "are", difference)
                     res = all(level <= 3 and level > 0 for level in difference)
                     if res:
                         safe += 1
                         print(
-                            "differences in",
+                            "Differences in",
                             report_model,
                             "are",
                             difference,
-                            "and its fine",
+                            "because we removed",
+                            report[i],
+                            "and it's fine.",
                         )
                         dampener = True
 
