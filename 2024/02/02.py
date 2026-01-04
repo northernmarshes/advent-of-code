@@ -42,81 +42,57 @@ def part_01(data):
 
 
 def part_02(data):
-    # Variables
-    ordered_reports = []
-    unordered_reports = []
     safe = 0
-
-    # Checking if a report is either all increasing or all decreasing
     for report in data:
-        reversed = sorted(report, reverse=True)
-        if report == sorted(report):
-            ordered_reports.append(report)
-            print("appending...", report)
-        elif report == reversed:
-            ordered_reports.append(report)
-            print("appending...", report)
-        else:
-            unordered_reports.append(report)
-            print("appending to unordered...", report)
-
-    # Marking reports with no dampener used with "N"
-    for report in ordered_reports:
-        report.append("N")
-
-    # Appending reports if deleting one level makes
-    # it possible. Then marking the corrected report
-    # by appending "Y" on the last index
-    for report in unordered_reports:
         dampener = False
-        for i, level in enumerate(report):
-            if not dampener:
-                report_model = report[:]
-                report_model.remove(report[i])
-                report_model_sorted_asc = sorted(report_model)
-                report_model_sorted_desc = sorted(report_model, reverse=True)
-                if (
-                    report_model == report_model_sorted_asc
-                    or report_model == report_model_sorted_desc
-                ):
-                    print("I'm removing:", report[i])
-                    report.remove(report[i])
-                    report.append("Y")
-                    ordered_reports.append(report)
-                    unordered_reports.remove(report)
-                    print("Report:", report, "has joined ordered ones.")
-                    dampener = True
-
-    # Checking if the differences are withing norm
-    for i, report in enumerate(ordered_reports):
-        report = report[:-1]
-        difference = [abs(report[i + 1] - report[i]) for i in range(len(report) - 1)]
-        res = all(level <= 3 and level > 0 for level in difference)
-        if res:
-            print("Differences in", report, "are", difference, "and it's fine.")
-            safe += 1
-        # Checking if removing a level can fix the report
-        elif ordered_reports[i][-1] == "N":
-            dampener = False
+        model_01 = report[:]
+        limit = False
+        model_01_sorted_asc = sorted(model_01)
+        model_01_sorted_desc = sorted(model_01, reverse=True)
+        difference = [
+            abs(model_01[i + 1] - model_01[i]) for i in range(len(model_01) - 1)
+        ]
+        limit = all(level <= 3 and level > 0 for level in difference)
+        if model_01 == model_01_sorted_asc or model_01 == model_01_sorted_desc:
+            if limit:
+                print(
+                    "Differences in",
+                    model_01,
+                    "are",
+                    difference,
+                    "and it's SAFE regardless.",
+                )
+                # data.remove(report)
+                safe += 1
+        else:
+            # There is a problem here with indexing model with
+            # Source indexes
             for i, level in enumerate(report):
                 if not dampener:
-                    report_model = report[:]
-                    report_model.remove(report[i])
-                    difference = [
-                        abs(report_model[i + 1] - report_model[i])
-                        for i in range(len(report_model) - 1)
+                    model_02 = report[:]
+                    del model_02[i]
+                    print("Trying to pass with:", model_02)
+                    model_02_sorted_asc = sorted(model_02)
+                    model_02_sorted_desc = sorted(model_02, reverse=True)
+                    difference_02 = [
+                        abs(model_02[i + 1] - model_02[i])
+                        for i in range(len(model_02) - 1)
                     ]
-                    res = all(level <= 3 and level > 0 for level in difference)
-                    if res:
+                    limit_02 = all(level <= 3 and level > 0 for level in difference_02)
+                    if (
+                        limit_02
+                        and model_02 == model_02_sorted_asc
+                        or model_02 == model_02_sorted_desc
+                    ):
                         safe += 1
                         print(
                             "Differences in",
-                            report_model,
+                            model_02,
                             "are",
-                            difference,
+                            difference_02,
                             "because we removed",
                             report[i],
-                            "and it's fine.",
+                            "and it's SAFE.",
                         )
                         dampener = True
 
