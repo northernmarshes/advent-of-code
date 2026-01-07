@@ -12,7 +12,6 @@ with open(input_file, "r") as f:
 
 
 def part_01(data):
-    # Variables
     ordered_reports = []
     differences_list = []
     safe = 0
@@ -38,7 +37,7 @@ def part_01(data):
     return safe
 
 
-# print(part_01(reports), "reports are safe.")
+print(part_01(reports), "reports are safe.")
 
 
 def part_02(data):
@@ -49,58 +48,23 @@ def part_02(data):
         limit = False
         model_01_sorted_asc = sorted(model_01)
         model_01_sorted_desc = sorted(model_01, reverse=True)
+
+        # Calculating differences between levels
         difference = [
             abs(model_01[i + 1] - model_01[i]) for i in range(len(model_01) - 1)
         ]
         limit = all(level <= 3 and level > 0 for level in difference)
-        if model_01 == model_01_sorted_asc or model_01 == model_01_sorted_desc:
-            if limit:
-                print(
-                    "Differences in",
-                    model_01,
-                    "are",
-                    difference,
-                    "and it's SAFE regardless.",
-                )
-                # data.remove(report)
-                safe += 1
-            else:
-                for i, level in enumerate(report):
-                    if not dampener:
-                        model_02 = report[:]
-                        del model_02[i]
-                        print("Trying to pass with:", model_02)
-                        model_02_sorted_asc = sorted(model_02)
-                        model_02_sorted_desc = sorted(model_02, reverse=True)
-                        difference_02 = [
-                            abs(model_02[d + 1] - model_02[d])
-                            for d in range(len(model_02) - 1)
-                        ]
-                        limit_02 = all(
-                            level <= 3 and level > 0 for level in difference_02
-                        )
-                        print("limit", difference_02, "and it's:", limit_02)
-                        if limit_02 and (
-                            model_02 == model_02_sorted_asc
-                            or model_02 == model_02_sorted_desc
-                        ):
-                            safe += 1
-                            print(
-                                "Differences in",
-                                model_02,
-                                "are",
-                                difference_02,
-                                "because we removed",
-                                report[i],
-                                "and it's SAFE.",
-                            )
-                            dampener = True
+        # Checking if a report is within limit and either all increasing or all decreasing
+        if limit and (
+            model_01 == model_01_sorted_asc or model_01 == model_01_sorted_desc
+        ):
+            safe += 1
+        # Dampening the resest of the reports
         else:
             for i, level in enumerate(report):
                 if not dampener:
                     model_02 = report[:]
                     del model_02[i]
-                    print("Trying to pass with:", model_02)
                     model_02_sorted_asc = sorted(model_02)
                     model_02_sorted_desc = sorted(model_02, reverse=True)
                     difference_02 = [
@@ -108,23 +72,12 @@ def part_02(data):
                         for d in range(len(model_02) - 1)
                     ]
                     limit_02 = all(level <= 3 and level > 0 for level in difference_02)
-                    print("limit", difference_02, "and it's:", limit_02)
                     if limit_02 and (
                         model_02 == model_02_sorted_asc
                         or model_02 == model_02_sorted_desc
                     ):
                         safe += 1
-                        print(
-                            "Differences in",
-                            model_02,
-                            "are",
-                            difference_02,
-                            "because we removed",
-                            report[i],
-                            "and it's SAFE.",
-                        )
                         dampener = True
-
     return safe
 
 
