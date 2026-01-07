@@ -64,6 +64,37 @@ def part_02(data):
                 )
                 # data.remove(report)
                 safe += 1
+            else:
+                for i, level in enumerate(report):
+                    if not dampener:
+                        model_02 = report[:]
+                        del model_02[i]
+                        print("Trying to pass with:", model_02)
+                        model_02_sorted_asc = sorted(model_02)
+                        model_02_sorted_desc = sorted(model_02, reverse=True)
+                        difference_02 = [
+                            abs(model_02[d + 1] - model_02[d])
+                            for d in range(len(model_02) - 1)
+                        ]
+                        limit_02 = all(
+                            level <= 3 and level > 0 for level in difference_02
+                        )
+                        print("limit", difference_02, "and it's:", limit_02)
+                        if limit_02 and (
+                            model_02 == model_02_sorted_asc
+                            or model_02 == model_02_sorted_desc
+                        ):
+                            safe += 1
+                            print(
+                                "Differences in",
+                                model_02,
+                                "are",
+                                difference_02,
+                                "because we removed",
+                                report[i],
+                                "and it's SAFE.",
+                            )
+                            dampener = True
         else:
             for i, level in enumerate(report):
                 if not dampener:
