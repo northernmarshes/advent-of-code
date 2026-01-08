@@ -6,46 +6,24 @@ input_file = "input.txt"
 
 calc_lines = []
 
-with open(sample_file, "r") as f:
+with open(input_file, "r") as f:
     lines = f.readlines()
     for line in lines:
-        calc_lines.append(line[:-1].split("mul"))
-
-
-# def part_1(data):
-#     result = 0
-#     calculations = []
-#     for line in data:
-#         for calc in line:
-#             if "(" and ")" in calc:
-#                 calculations.append(calc)
-#
-#     multipliers = []
-#     for calc in calculations:
-#         print(calc)
-#         inside = calc[calc.index("(") + 1 : calc.index(")")]
-#         multipliers.append([int(x) for x in inside.split(",")])
-#
-#     for calc in multipliers:
-#         result += math.prod(calc)
-#     return result
-
-# print(part_1(calc_lines))
+        calc_lines.append(line[:-1])
 
 
 def part_1_regex(data):
     result = 0
     calculations = []
-    pattern = re.compile(r"\(\d+,\d+\)")
+    pattern = re.compile(r"mul\(\d{1,3},\d{1,3}\)")
     for line in data:
-        for calc in line[1:]:
-            calculation = pattern.findall(calc)
-            if calculation:
-                calculations.append(calculation[0][1:-1])
-    for calc in calculations:
-        calc = [int(x) for x in calc.split(",")]
-        result += math.prod(calc)
+        calc_line = pattern.findall(line)
+        for calc in calc_line:
+            calculations.append(calc)
+    for calculation in calculations:
+        numbers = list(map(int, calculation[4:-1].split(",")))
+        result += math.prod(numbers)
     return result
 
 
-print(part_1_regex(calc_lines))
+print("Adding up the result of each instruction produces", part_1_regex(calc_lines))
