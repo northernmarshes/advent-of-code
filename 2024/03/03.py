@@ -1,7 +1,8 @@
 import math
 import re
 
-sample_file = "sample.txt"
+sample_01_file = "sample_01.txt"
+sample_02_file = "sample_02.txt"
 input_file = "input.txt"
 
 calc_lines = []
@@ -26,4 +27,16 @@ def part_1_regex(data):
     return result
 
 
-print("Adding up the result of each instruction produces", part_1_regex(calc_lines))
+# print("Adding up the result of each instruction produces", part_1_regex(calc_lines))
+
+
+def part_2_regex(data):
+    result = 0
+    calculations = []
+    pattern = re.compile(r"(do\(\)){1}.*(mul\(\d{1,3},\d{1,3}\)){1}")
+    for line in data:
+        calc_line = pattern.findall(line)
+        print(calc_line)
+
+
+print("Result:", part_2_regex(calc_lines))
