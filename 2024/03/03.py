@@ -34,7 +34,8 @@ def part_1_regex(data):
 def part_2_regex(data):
     data_line = "".join(data)
     result = 0
-    calculations = []
+    calculations = {}
+    sorted_calculations = {}
     objects = []
 
     # Patterns
@@ -55,10 +56,19 @@ def part_2_regex(data):
     for dont in donts:
         objects.append(dont)
 
+    # Sorting
+    #
+    # Making a dictionary with a leading index
     for object in objects:
-        print(object)
+        start = object.start()
+        group = object.group()
+        calculations[start] = group
 
-    # calculations.append(first[0])
+    for key in sorted(calculations.keys()):
+        sorted_calculations[key] = calculations[key]
+
+    for key, value in sorted_calculations.items():
+        print(value)
 
     # Calculations:
     # for calc in calculations:
@@ -71,4 +81,6 @@ def part_2_regex(data):
 print("Result:", part_2_regex(calc_lines))
 
 
+# Access to data in rematch: .group() .start() .end()
 # pattern = re.compile(r"(do\(\)){1}.*(mul\(\d{1,3},\d{1,3}\)){1}")
+# new_calc = str(start).zfill(5) + " " + group
