@@ -34,53 +34,55 @@ def part_1_regex(data):
 def part_2_regex(data):
     data_line = "".join(data)
     result = 0
-    calculations = {}
+    operations = {}
+    calculations = []
     sorted_calculations = {}
-    objects = []
+    valid_muls = []
 
     # Patterns
     pattern_mul = re.compile(r"mul\(\d{1,3},\d{1,3}\)")
     pattern_do = re.compile(r"do\(\)")
     pattern_dont = re.compile(r"don\'t")
 
-    # Search
+    # Search for patterns
     muls = pattern_mul.finditer(data_line)
     dos = pattern_do.finditer(data_line)
     donts = pattern_dont.finditer(data_line)
 
-    # Appending
+    # Appending a dictionary
     for mul in muls:
-        objects.append(mul)
+        operations[mul.start()] = mul.group()
     for do in dos:
-        objects.append(do)
+        operations[do.start()] = do.group()
     for dont in donts:
-        objects.append(dont)
+        operations[dont.start()] = dont.group()
 
-    # Sorting
-    #
-    # Making a dictionary with a leading index
-    for object in objects:
-        start = object.start()
-        group = object.group()
-        calculations[start] = group
+    # Sorting the dictionary
+    for key in sorted(operations.keys()):
+        sorted_calculations[key] = operations[key]
 
-    for key in sorted(calculations.keys()):
-        sorted_calculations[key] = calculations[key]
-
+    # Appendind a list of sorted calculations:
     for key, value in sorted_calculations.items():
-        print(value)
+        calculations.append(value)
 
-    # Calculations:
-    # for calc in calculations:
-    # numbers = list(map(int, calc[4:-1].split(",")))
-    # print("numbers", numbers)
-    # result += math.prod(numbers)
-    # return result
+    # Choosing only valid calculations
+    valid = True
+    for calc in calculations:
+        if calc == "do()":
+            valid = True
+        elif calc == "don't":
+            valid = False
+        else:
+            if valid:
+                valid_muls.append(calc)
+
+    # Calculations
+    for mul in valid_muls:
+        numbers = list(map(int, mul[4:-1].split(",")))
+        result += math.prod(numbers)
+    return result
 
 
-print("Result:", part_2_regex(calc_lines))
-
-
-# Access to data in rematch: .group() .start() .end()
-# pattern = re.compile(r"(do\(\)){1}.*(mul\(\d{1,3},\d{1,3}\)){1}")
-# new_calc = str(start).zfill(5) + " " + group
+print(
+    part_2_regex(calc_lines), "is a sum of the results of the enabled multiplications."
+)
