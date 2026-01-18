@@ -8,7 +8,6 @@ input_file = "input.txt"
 calc_lines = []
 
 with open(input_file, "r") as f:
-    # with open(sample_02_file, "r") as f:
     lines = f.readlines()
     for line in lines:
         calc_lines.append(line[:-1])
@@ -28,7 +27,7 @@ def part_1_regex(data):
     return result
 
 
-# print("Adding up the result of each instruction produces", part_1_regex(calc_lines))
+print("Adding up the result of each instruction produces", part_1_regex(calc_lines))
 
 
 def part_2_regex(data):
