@@ -14,17 +14,30 @@ def parse_data(data: str):
 
 
 def rotate_matrix(matrix: list):
-    pass
-    # 90 degrees
-    # return [list(reversed(col)) for col in zip(*matrix)]
+    N = len(matrix)
+    result = [["" for _ in range(2 * N - 1)] for _ in range(2 * N - 1)]
+    for i in range(N):
+        for j in range(N):
+            new_i = i + j
+            new_j = N - 1 + i - j
+            result[new_i][new_j] = matrix[i][j]
+    return result
 
 
 def part_1(data: str):
     matrix = parse_data(data)
     occurances = 0
     key = "XMAS"
+    rotations = 0
+    matrix = rotate_matrix(matrix)
     for line in matrix:
-        occurances += ("".join(map(str, line))).count(key)
+        print("".join(map(str, line)))
+    # while rotations <= 7:
+    #     for line in matrix:
+    #         occurances += ("".join(map(str, line))).count(key)
+    #     matrix = rotate_matrix(matrix)
+    #     rotations += 1
+
     return occurances
 
 
