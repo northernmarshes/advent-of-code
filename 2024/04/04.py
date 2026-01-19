@@ -14,6 +14,7 @@ def parse_data(data: str):
 
 
 def rotate_matrix(matrix: list):
+    new = []
     N = len(matrix)
     result = [["" for _ in range(2 * N - 1)] for _ in range(2 * N - 1)]
     for i in range(N):
@@ -21,7 +22,11 @@ def rotate_matrix(matrix: list):
             new_i = i + j
             new_j = N - 1 + i - j
             result[new_i][new_j] = matrix[i][j]
-    return result
+    for line in result:
+        if not all(char == "" for char in line):
+            new.append(line)
+            # result.remove(line)
+    return new
 
 
 def part_1(data: str):
@@ -29,9 +34,17 @@ def part_1(data: str):
     occurances = 0
     key = "XMAS"
     rotations = 0
-    matrix = rotate_matrix(matrix)
+
     for line in matrix:
-        print("".join(map(str, line)))
+        print(line)
+    matrix2 = rotate_matrix(matrix)
+    for line in matrix2:
+        print(line)
+
+    matrix3 = rotate_matrix(matrix2)
+    for line in matrix3:
+        print(line)
+
     # while rotations <= 7:
     #     for line in matrix:
     #         occurances += ("".join(map(str, line))).count(key)
@@ -42,3 +55,5 @@ def part_1(data: str):
 
 
 print("XMAS appears", part_1(sample_file), "times.")
+
+# rotated = zip(*original[::-1])
