@@ -61,4 +61,40 @@ def part_1(data: str):
     return occurances
 
 
-print("XMAS appears", part_1(input_file), "times.")
+# print("XMAS appears", part_1(input_file), "times.")
+
+
+def part_2(data: str):
+    matrix = parse_data(data)
+    matrix_copy = matrix[:]
+    occurances = 0
+    rotations = 0
+    this_time = 0
+
+    while rotations <= 3:
+        this_time = 0
+        for r, line in enumerate(matrix[:-1]):
+            for c, char in enumerate(line[:-1]):
+                if (
+                    matrix[r][c] == "A"
+                    and matrix[r - 1][c - 1] == "M"
+                    and matrix[r - 1][c + 1] == "M"
+                    and matrix[r + 1][c - 1] == "S"
+                    and matrix[r + 1][c + 1] == "S"
+                    and c != 0
+                ):
+                    matrix_copy[r][c] = "_"
+                    occurances += 1
+                    this_time += 1
+        print(this_time)
+        for line in matrix_copy:
+            print(line)
+        print()
+        matrix_copy = rotate_matrix_90(matrix_copy)
+        matrix = rotate_matrix_90(matrix)
+        rotations += 1
+
+    return occurances
+
+
+print("The actual X-MAS appears", part_2(sample_file), "times.")
