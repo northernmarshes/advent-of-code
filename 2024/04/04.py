@@ -5,6 +5,7 @@ matrix_cache = []
 
 
 def parse_data(data: str):
+    """Parsing the data"""
     if data not in matrix_cache:
         with open(data, "r") as f:
             lines = f.readlines()
@@ -13,8 +14,8 @@ def parse_data(data: str):
     return matrix_cache
 
 
-def rotate_matrix(matrix: list):
-    new = []
+def rotate_matrix_45(matrix: list):
+    """Rotating a matrix 45 degrees"""
     N = len(matrix)
     result = [["" for _ in range(2 * N - 1)] for _ in range(2 * N - 1)]
     for i in range(N):
@@ -22,38 +23,42 @@ def rotate_matrix(matrix: list):
             new_i = i + j
             new_j = N - 1 + i - j
             result[new_i][new_j] = matrix[i][j]
-    for line in result:
-        if not all(char == "" for char in line):
-            new.append(line)
-            # result.remove(line)
-    return new
+    return result
+
+
+def rotate_matrix_90(matrix: list):
+    """Rotating a matrix 90 degrees"""
+    new_matrix = []
+    rotated = zip(*matrix[::-1])
+    for line in rotated:
+        new_matrix.append(list(line))
+    return new_matrix
 
 
 def part_1(data: str):
+    """Part 1 logic"""
     matrix = parse_data(data)
     occurances = 0
     key = "XMAS"
     rotations = 0
 
-    for line in matrix:
-        print(line)
-    matrix2 = rotate_matrix(matrix)
-    for line in matrix2:
-        print(line)
+    # Rotating matix 90 degrees
+    while rotations <= 3:
+        for line in matrix:
+            occurances += ("".join(map(str, line))).count(key)
+        matrix = rotate_matrix_90(matrix)
+        rotations += 1
+    rotations = 0
 
-    matrix3 = rotate_matrix(matrix2)
-    for line in matrix3:
-        print(line)
-
-    # while rotations <= 7:
-    #     for line in matrix:
-    #         occurances += ("".join(map(str, line))).count(key)
-    #     matrix = rotate_matrix(matrix)
-    #     rotations += 1
+    # Rotating matrix 45 and then 90 degrees
+    matrix = rotate_matrix_45(matrix)
+    while rotations <= 3:
+        for line in matrix:
+            occurances += ("".join(map(str, line))).count(key)
+        matrix = rotate_matrix_90(matrix)
+        rotations += 1
 
     return occurances
 
 
-print("XMAS appears", part_1(sample_file), "times.")
-
-# rotated = zip(*original[::-1])
+print("XMAS appears", part_1(input_file), "times.")
