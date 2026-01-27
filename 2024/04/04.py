@@ -1,17 +1,19 @@
 sample_file = "sample.txt"
 input_file = "input.txt"
 
-matrix_cache = []
+matrix_cache = {}
 
 
 def parse_data(data: str):
     """Parsing the data"""
     if data not in matrix_cache:
         with open(data, "r") as f:
+            matrix = []
             lines = f.readlines()
             for line in lines:
-                matrix_cache.append([char for char in line[:-1]])
-    return matrix_cache
+                matrix.append([char for char in line[:-1]])
+        matrix_cache[data] = matrix
+    return matrix_cache[data]
 
 
 def rotate_matrix_45(matrix: list):
