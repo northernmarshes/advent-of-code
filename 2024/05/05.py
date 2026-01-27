@@ -1,7 +1,7 @@
 sample_file = "sample.txt"
 input_file = "input.txt"
 
-data_cache = []
+data_cache = {}
 
 
 def parse_data(data: str):
@@ -16,19 +16,17 @@ def parse_data(data: str):
                     line = (line[:-1]).split(",")
                     line = [int(item) for item in line]
                     updates.append(line)
-                if "|" in line:
+                elif "|" in line:
                     line = (line[:-1]).split("|")
                     line = [int(item) for item in line]
                     rules.append(line)
-        data_cache.append(rules)
-        data_cache.append(updates)
-    return data_cache
+        data_cache[data] = (rules, updates)
+    return data_cache[data]
 
 
 def part_01(data: str):
     """Part 1 logic"""
-    rules = (parse_data(data))[0]
-    updates = (parse_data(data))[1]
+    rules, updates = parse_data(data)
     result = 0
 
     for update in updates:
