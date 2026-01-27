@@ -7,7 +7,7 @@ data_cache = []
 def parse_data(data: str):
     """Parsing the data"""
     if data not in data_cache:
-        with open(sample_file, "r") as f:
+        with open(data, "r") as f:
             rules = []
             updates = []
             lines = f.readlines()
@@ -23,17 +23,37 @@ def parse_data(data: str):
 
 def part_01(data: str):
     """Part 1 logic"""
-    page_order = set()
     rules = (parse_data(data))[0]
     updates = (parse_data(data))[1]
+    updates_int = []
+    rules_int = []
+    ordered = False
+    goodupdated = 0
+    middle = 0
 
-    all_pages = set()
     for rule in rules:
-        for number in rule:
-            all_pages.add(number)
-    print(set(all_pages))
-    number_of_keys = len(set(all_pages))
-    print(number_of_keys)
+        rule_int = [int(item) for item in rule]
+        rules_int.append(rule_int)
+
+    for update in updates:
+        update_int = [int(item) for item in update]
+        updates_int.append(update_int)
+
+    for update in updates_int:
+        ordered = True
+        middleIndex = round((len(update) - 1) / 2)
+        middle = update[middleIndex]
+        for rule in rules_int:
+            if set(rule).issubset(set(update)):
+                index = update.index(rule[1])
+                if rule[0] in update[index:]:
+                    ordered = False
+        if ordered:
+            goodupdated += middle
+    return goodupdated
 
 
-part_01(sample_file)
+print(
+    part_01(input_file),
+    "is what you get if you add up the middle page number from the correctly-ordered updates",
+)
