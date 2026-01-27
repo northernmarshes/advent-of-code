@@ -12,12 +12,16 @@ def parse_data(data: str):
             updates = []
             lines = f.readlines()
             for line in lines:
-                if "|" not in line:
-                    updates.append((line[:-1]).split(","))
-                else:
-                    rules.append((line[:-1]).split("|"))
+                if "|" not in line and "," in line:
+                    line = (line[:-1]).split(",")
+                    line = [int(item) for item in line]
+                    updates.append(line)
+                if "|" in line:
+                    line = (line[:-1]).split("|")
+                    line = [int(item) for item in line]
+                    rules.append(line)
         data_cache.append(rules)
-        data_cache.append(updates[1:])
+        data_cache.append(updates)
     return data_cache
 
 
@@ -25,32 +29,19 @@ def part_01(data: str):
     """Part 1 logic"""
     rules = (parse_data(data))[0]
     updates = (parse_data(data))[1]
-    updates_int = []
-    rules_int = []
-    ordered = False
-    goodupdated = 0
-    middle = 0
-
-    for rule in rules:
-        rule_int = [int(item) for item in rule]
-        rules_int.append(rule_int)
+    result = 0
 
     for update in updates:
-        update_int = [int(item) for item in update]
-        updates_int.append(update_int)
-
-    for update in updates_int:
         ordered = True
-        middleIndex = round((len(update) - 1) / 2)
-        middle = update[middleIndex]
-        for rule in rules_int:
+        middle = update[(round((len(update) - 1) / 2))]
+        for rule in rules:
             if set(rule).issubset(set(update)):
                 index = update.index(rule[1])
                 if rule[0] in update[index:]:
                     ordered = False
         if ordered:
-            goodupdated += middle
-    return goodupdated
+            result += middle
+    return result
 
 
 print(
