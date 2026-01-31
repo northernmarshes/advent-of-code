@@ -27,7 +27,9 @@ def parse_data(data: str):
 def part_01(data: str):
     """Part 1 logic"""
     rules, updates = parse_data(data)
+    output = []
     result = 0
+    unordered = []
 
     for update in updates:
         ordered = True
@@ -39,10 +41,28 @@ def part_01(data: str):
                     ordered = False
         if ordered:
             result += middle
-    return result
+        else:
+            unordered.append(update)
+    output.append(result)
+    output.append(unordered)
+    return output
 
 
 print(
-    part_01(input_file),
+    part_01(sample_file)[0],
     "is what you get if you add up the middle page number from the correctly-ordered updates",
 )
+
+
+def part_02(data: str, unordered: list):
+    """Part 2 logic"""
+    rules = parse_data(data)
+    unordered_updates = unordered
+    ordered_keys = []
+    sorted_updates = []
+
+    # for update in unordered_updates:
+    # sorted = sorted(update, key=lambda x: )
+
+
+part_02(sample_file, part_01(sample_file)[1])
