@@ -28,6 +28,20 @@ def parse_data(data: str):
     return data_cache[data]
 
 
-for line in parse_data(sample_file)[0]:
-    print(line)
-print(parse_data(sample_file)[1])
+def part_1(data: str):
+    """Part 1 logic"""
+    map = data[0]
+    guard = data[1]
+    position = []
+
+    for x_index, line in enumerate(map):
+        for y_index, char in enumerate(line):
+            position = y_index, x_index
+            print(position)
+
+
+print(
+    "The guard will visit",
+    part_1(parse_data(sample_file)),
+    "distinct positions before leaving the mapped area",
+)
