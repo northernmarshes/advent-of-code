@@ -1,5 +1,5 @@
-sample_file = "sample.txt"
 input_file = "input.txt"
+sample_file = "sample.txt"
 
 data_cache = {}
 
@@ -31,13 +31,22 @@ def parse_data(data: str):
 def part_1(data: str):
     """Part 1 logic"""
     map = data[0]
-    guard = data[1]
+    g = [int(x) for x in data[1]]
     position = []
+
+    for line in map:
+        print(line)
 
     for x_index, line in enumerate(map):
         for y_index, char in enumerate(line):
-            position = y_index, x_index
-            print(position)
+            position.append(y_index)
+            position.append(x_index)
+            if position == g and map[g[0] - 1][g[1]] != "#":
+                # map[y_index][x_index] = "."
+                print(map[y_index][x_index])
+                position = []
+            else:
+                position = []
 
 
 print(
