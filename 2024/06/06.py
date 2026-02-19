@@ -1,3 +1,5 @@
+import numpy as np
+
 input_file = "input.txt"
 sample_file = "sample.txt"
 
@@ -30,23 +32,17 @@ def parse_data(data: str):
 
 def part_1(data: str):
     """Part 1 logic"""
-    map = data[0]
-    g = [int(x) for x in data[1]]
-    position = []
+    map_np = np.zeros((10, 10))
 
-    for line in map:
-        print(line)
-
-    for x_index, line in enumerate(map):
-        for y_index, char in enumerate(line):
-            position.append(y_index)
-            position.append(x_index)
-            if position == g and map[g[0] - 1][g[1]] != "#":
-                # map[y_index][x_index] = "."
-                print(map[y_index][x_index])
-                position = []
+    for l_index, line in enumerate(data[0]):
+        for c_index, char in enumerate(line):
+            if char == ".":
+                map_np[l_index][c_index] = "0"
+            elif char == "#":
+                map_np[l_index][c_index] = "1"
             else:
-                position = []
+                map_np[l_index][c_index] = "6"
+    print(map_np)
 
 
 print(
