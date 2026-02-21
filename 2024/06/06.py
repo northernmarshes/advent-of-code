@@ -10,36 +10,27 @@ def parse_data(data: str):
     """Parsing the data"""
     if data not in data_cache:
         with open(data, "r") as f:
-            map_matrix = []
-            chars = []
             lines = f.readlines()
-            for line in lines:
-                for char in line[:-1]:
-                    if char == "^":
-                        chars.append(char)
+            map_size = len(lines[0][:-1])
+            map_np = np.zeros((map_size, map_size))
+
+            # Loading a numpy array
+            for l_index, line in enumerate(lines):
+                for c_index, char in enumerate(line[:-1]):
+                    if char == ".":
+                        map_np[l_index][c_index] = "0"
+                    elif char == "#":
+                        map_np[l_index][c_index] = "1"
                     else:
-                        chars.append(char)
-                map_matrix.append(chars)
-                chars = []
-        data_cache[data] = map_matrix
+                        map_np[l_index][c_index] = "6"
+        data_cache[data] = map_np
     return data_cache[data]
 
 
-def part_1(data: str):
+def part_1(data):
     """Part 1 logic"""
-    map_size = len(data)
-    map_np = np.zeros((map_size, map_size))
+    map_np = data
     guard_on_map = True
-
-    # Loading a numpy array
-    for l_index, line in enumerate(data):
-        for c_index, char in enumerate(line):
-            if char == ".":
-                map_np[l_index][c_index] = "0"
-            elif char == "#":
-                map_np[l_index][c_index] = "1"
-            else:
-                map_np[l_index][c_index] = "6"
 
     # Movement simulation
     while guard_on_map:
@@ -61,6 +52,19 @@ def part_1(data: str):
 
 print(
     "The guard will visit",
-    part_1(parse_data(input_file)),
+    part_1(parse_data(sample_file)),
     "distinct positions before leaving the mapped area",
+)
+
+
+def part_2(data):
+    """Part 2 logic"""
+    map_np = data
+    pass
+
+
+print(
+    "We could choose",
+    part_2(parse_data(sample_file)),
+    "different positions for this obstruction",
 )
