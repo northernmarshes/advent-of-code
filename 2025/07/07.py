@@ -1,26 +1,29 @@
-# Input files
 sample_file = "sample.txt"
 input_file = "input.txt"
 
-cols = []
 
-with open(input_file, "r") as file:
-    lines = [char.replace(".", " ") for char in file.readlines()]
-    cols = list(map(list, zip(*lines)))[:][:-1]
+def parse_data(data):
+    """Parsing the data"""
 
-# Rotating the matrix
-cols = [[cols[j][i] for j in range(len(cols))] for i in range(len(cols[0]))]
+    cols = []
+    with open(data, "r") as file:
+        lines = [char.replace(".", " ") for char in file.readlines()]
+        cols = list(map(list, zip(*lines)))[:][:-1]
 
-# Adding initial beam
-for ri, row in enumerate(cols):
-    for ci, col in enumerate(row):
-        if ri == 0 and col == "S":
-            cols[ri + 1][ci] = "|"
+    # Rotating the matrix
+    cols = [[cols[j][i] for j in range(len(cols))] for i in range(len(cols[0]))]
+
+    # Adding initial beam
+    for ri, row in enumerate(cols):
+        for ci, col in enumerate(row):
+            if ri == 0 and col == "S":
+                cols[ri + 1][ci] = "|"
+    return cols
 
 
-# Part one logic
 def part_01(data):
     """Part 1 logic"""
+
     count = 0
     split = 0
     while count < 12000:
@@ -38,7 +41,7 @@ def part_01(data):
     return split
 
 
-print(f"A tachyon beam is split a total of {part_01(cols)} times.")
+print(f"A tachyon beam is split a total of {part_01(parse_data(input_file))} times.")
 
 
 def part_02(data):
@@ -52,6 +55,8 @@ def part_02(data):
 
     count = 0
     split = 0
+
+    # Simulating the beam
     while count < 12000:
         for ri, row in enumerate(data):
             for ci, col in enumerate(row):
@@ -76,11 +81,11 @@ def part_02(data):
             if r == len(data) - 1 and data[r - 1][c] == "|":
                 data[r][c] = "@"
 
-    # Initial count
-    for ri, row in enumerate(cols):
+    # Root count
+    for ri, row in enumerate(data):
         for ci, col in enumerate(row):
             if ri == 2 and col == "@":
-                cols[ri][ci] = "1"
+                data[ri][ci] = "1"
 
     # Counting ways to each node
     for r, row in enumerate(data):
@@ -90,12 +95,14 @@ def part_02(data):
                 current_row = r
                 # Adding paths for the whole beam length
                 while data[current_row - 1][c] == "|":
+                    # Calculating left parents
                     if (
                         data[current_row - 1][c - 1] != " "
                         and data[current_row - 1][c - 1] != "|"
                         and data[current_row - 1][c - 1] != "^"
                     ):
                         node_paths += int(data[current_row - 1][c - 1])
+                    # Calculating right parents
                     if (
                         c < len(row) - 1
                         and data[current_row - 1][c + 1] != " "
@@ -116,4 +123,6 @@ def part_02(data):
     return paths
 
 
-print(f"A single tachyon particle end up on {part_02(cols)} timelines.")
+print(
+    f"A single tachyon particle end up on {part_02(parse_data(input_file))} timelines."
+)
