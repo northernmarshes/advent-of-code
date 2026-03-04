@@ -3,6 +3,7 @@ from scipy.spatial import distance
 
 input_file = "input.txt"
 sample_file = "sample.txt"
+number_of_connections = 10
 
 
 def parse_data(data: str) -> np.ndarray:
@@ -16,24 +17,50 @@ def parse_data(data: str) -> np.ndarray:
         return box_coordinates_np
 
 
-def part_1(data: np.ndarray):
+def part_1(data: np.ndarray, connections: int):
     """Part 1 logic"""
 
-    d = distance.squareform(distance.pdist(data))
-    closest = np.argsort(d, axis=1)
-    closest_pairs = closest[:, 0:2]
-    closest_pairs_distances = []
+    coordinates = data
+    performed_connections = 0
+    the_closest_pair = np.zeros
 
-    for pair in closest_pairs:
-        p1 = data[pair[0]]
-        p2 = data[pair[1]]
-        dist = np.linalg.norm(p1 - p2)
-        closest_pairs_distances.append(float(dist))
-    the_closest_pair = closest_pairs[
-        closest_pairs_distances.index(min(closest_pairs_distances))
-    ]
+    # Calculating distances between boxes
+    d = distance.squareform(distance.pdist(coordinates))
+    closest = np.argsort(d, axis=1)
+    print(closest)
+
+    while performed_connections < connections:
+        # Choosing closest pairs
+        closest_pairs = closest[:, 0:2]
+        closest_pairs_distances = []
+
+        # Calculating which pair is the closest one
+        for pair in closest_pairs:
+            p1 = coordinates[pair[0]]
+            p2 = coordinates[pair[1]]
+            dist = np.linalg.norm(p1 - p2)
+            closest_pairs_distances.append(float(dist))
+            the_closest_pair = closest_pairs[
+                closest_pairs_distances.index(min(closest_pairs_distances))
+            ]
+
+        # Deleting connecion from closest
+        print(
+            "tu usuwamy",
+            closest[closest_pairs_distances.index(min(closest_pairs_distances))],
+        )
+
+        print("the closest pair is:", the_closest_pair)
+
+        # print(
+        #     np.delete(
+        #         closest, (closest_pairs_distances.index(min(closest_pairs_distances)))
+        #     )
+        # )
+
+        performed_connections += 1
 
     return the_closest_pair
 
 
-print(part_1(parse_data(sample_file)))
+print(part_1(parse_data(sample_file), number_of_connections))
