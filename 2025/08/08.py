@@ -17,22 +17,44 @@ def parse_data(data: str) -> np.ndarray:
         return box_coordinates_np
 
 
-def part_1(data: np.ndarray, connections: int):
+# pary = [[0, 19], [0, 7], [2, 13], [7, 19]]
+#
+# def connect_pairs(pairs: list) -> list:
+#     all_boxes = 19
+#     groups = []
+#     for box in range(all_boxes):
+#         group = []
+#         for pair in pairs:
+#             if box in pair:
+#                 group.append(pair)
+#         groups.append(group)
+#     return groups
+#
+#
+# print(connect_pairs(pary))
+
+
+def part_1(data: np.ndarray, connections: int) -> int:
     """Part 1 logic"""
 
     coordinates = data
     performed_connections = 0
     the_closest_pair = np.zeros
+    connected_boxes = []
+    multiplied_sizes = 0
 
     # Calculating distances between boxes
     d = distance.squareform(distance.pdist(coordinates))
-    closest = np.argsort(d, axis=1)
-    print(closest)
+    closest = list(np.argsort(d, axis=1))
+    closest_list = []
+    for row in closest:
+        closest_list.append([int(char) for char in row])
 
     while performed_connections < connections:
         # Choosing closest pairs
-        closest_pairs = closest[:, 0:2]
+        closest_pairs = [row[:2] for row in closest_list]
         closest_pairs_distances = []
+        the_closest_pair = []
 
         # Calculating which pair is the closest one
         for pair in closest_pairs:
@@ -44,23 +66,19 @@ def part_1(data: np.ndarray, connections: int):
                 closest_pairs_distances.index(min(closest_pairs_distances))
             ]
 
-        # Deleting connecion from closest
-        print(
-            "tu usuwamy",
-            closest[closest_pairs_distances.index(min(closest_pairs_distances))],
-        )
+        # Deleting used connections from a proximity list
+        del closest_list[the_closest_pair[0]][1]
+        del closest_list[the_closest_pair[1]][1]
 
-        print("the closest pair is:", the_closest_pair)
-
-        # print(
-        #     np.delete(
-        #         closest, (closest_pairs_distances.index(min(closest_pairs_distances)))
-        #     )
-        # )
+        # Appending a new connction to a list
+        connected_boxes.append(the_closest_pair)
 
         performed_connections += 1
 
-    return the_closest_pair
+    for box in connected_boxes:
+        print(box)
+
+    return multiplied_sizes
 
 
-print(part_1(parse_data(sample_file), number_of_connections))
+# print(part_1(parse_data(sample_file), number_of_connections))
