@@ -17,31 +17,44 @@ def parse_data(data: str) -> np.ndarray:
         return box_coordinates_np
 
 
-# pary = [[0, 19], [0, 7], [2, 13], [7, 19]]
-#
-# def connect_pairs(pairs: list) -> list:
-#     all_boxes = 19
-#     groups = []
-#     for box in range(all_boxes):
-#         group = []
-#         for pair in pairs:
-#             if box in pair:
-#                 group.append(pair)
-#         groups.append(group)
-#     return groups
-#
-#
-# print(connect_pairs(pary))
+pary = [[0, 19], [0, 7], [2, 13], [7, 19]]
 
 
-def part_1(data: np.ndarray, connections: int) -> int:
+def connect_pairs(pairs: list) -> list:
+    """Sorting pairs into connections"""
+    group = []
+    groups = []
+    added = True
+    while added:
+        size = len(group)
+        for pair in pairs:
+            if group == []:
+                group.append(pair[0])
+                group.append(pair[1])
+            elif pair[0] in group and pair[1] not in group:
+                group.append(pair[1])
+            elif pair[1] in group and pair[0] not in group:
+                group.append(pair[0])
+            else:
+                pass
+        if size != len(group):
+            added = True
+        else:
+            added = False
+        if group not in groups:
+            groups.append(group)
+
+    return groups
+
+
+def part_1(data: np.ndarray, connections: int):
     """Part 1 logic"""
 
     coordinates = data
     performed_connections = 0
     the_closest_pair = np.zeros
     connected_boxes = []
-    multiplied_sizes = 0
+    # multiplied_sizes = 0
 
     # Calculating distances between boxes
     d = distance.squareform(distance.pdist(coordinates))
@@ -75,10 +88,13 @@ def part_1(data: np.ndarray, connections: int) -> int:
 
         performed_connections += 1
 
-    for box in connected_boxes:
-        print(box)
+    # for box in connected_boxes:
+    #     print(box)
 
-    return multiplied_sizes
+    return connected_boxes
 
 
-# print(part_1(parse_data(sample_file), number_of_connections))
+print(part_1(parse_data(sample_file), number_of_connections))
+
+print(connect_pairs(part_1(parse_data(sample_file), 10)))
+# print(connect_pairs(pary))
