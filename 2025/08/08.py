@@ -20,30 +20,19 @@ def parse_data(data: str) -> np.ndarray:
 test_pairs = [(0, 19), (0, 7), (2, 13), (7, 19)]
 
 
-def connect_pairs(pairs: list) -> list:
+def connect_pairs(pairs):
     """Sorting pairs into connections"""
-
+    group = set()
     groups = []
-    if len(pairs) > 1:
-        tmp = [pairs[0]]
-        for i in range(1, len(pairs)):
-            if (
-                pairs[i][0] == pairs[i - 1][1]
-                or pairs[i][1] == pairs[i - 1][0]
-                or pairs[i][1] == pairs[i - 1][1]
-                or pairs[i][0] == pairs[i - 1][0]
-            ):
-                tmp.append(pairs[i])
-            else:
-                groups.append(tmp)
-                tmp = [pairs[i]]
-        groups.append(tmp)
-    else:
-        groups = pairs
-
-    for group in groups:
-        print(group)
-
+    for connection in sorted(pairs):
+        if group and group.intersection(set(connection)):
+            group.update(set(connection))
+        else:
+            if group:
+                groups.append(group)
+            group = set(connection)
+    if group:
+        groups.append(group)
     return groups
 
 
@@ -84,14 +73,27 @@ def part_1(data: np.ndarray, connections: int):
         del closest_list[the_closest_pair[1]][1]
 
         # Appending a new connction to a list
-        connected_boxes.append(the_closest_pair)
+        if connected_boxes == []:
+            connected_boxes.append(the_closest_pair)
+        else:
+            for index, box in enumerate(connected_boxes):
+                if (
+                    the_closest_pair[0] in connected_boxes[index]
+                    and the_closest_pair[1] not in connected_boxes[index]
+                ):
+                    connected_boxes[index].append(the_closest_pair[1])
+
+                if (
+                    the_closest_pair[1] in connected_boxes[index]
+                    and the_closest_pair[0] not in connected_boxes[index]
+                ):
+                    connected_boxes[index].append(the_closest_pair[0])
 
         performed_connections += 1
 
     return connected_boxes
 
 
-# print(part_1(parse_data(sample_file), number_of_connections))
-
+print(part_1(parse_data(sample_file), number_of_connections))
 # print(connect_pairs(part_1(parse_data(sample_file), 10)))
-print(connect_pairs(test_pairs))
+# print(connect_pairs(test_pairs))
