@@ -1,9 +1,11 @@
 import numpy as np
 from scipy.spatial import distance
+import itertools
+import math
 
 input_file = "input.txt"
 sample_file = "sample.txt"
-number_of_connections = 10
+number_of_connections = 1000
 
 
 def parse_data(data: str) -> np.ndarray:
@@ -17,23 +19,30 @@ def parse_data(data: str) -> np.ndarray:
         return box_coordinates_np
 
 
-test_pairs = [(0, 19), (0, 7), (2, 13), (7, 19)]
-
-
-def connect_pairs(pairs):
-    """Sorting pairs into connections"""
-    group = set()
+def circuit_lenghts(pairs):
+    """Calculating multiplication of 3 longest circuit lengths"""
+    lengths = []
+    boxes = set(map(frozenset, pairs))
     groups = []
-    for connection in sorted(pairs):
-        if group and group.intersection(set(connection)):
-            group.update(set(connection))
-        else:
-            if group:
-                groups.append(group)
-            group = set(connection)
-    if group:
-        groups.append(group)
-    return groups
+    while boxes:
+        group = set()
+        groups.append([])
+        while True:
+            for candidate in boxes:
+                if not group or group & candidate:
+                    group |= candidate
+                    groups[-1].append(list(candidate))
+                    boxes.remove(candidate)
+                    break
+            else:
+                break
+
+    for group in groups:
+        lengths.append(len(set(list(itertools.chain.from_iterable(group)))))
+
+    result = math.prod(sorted(lengths)[-3:])
+
+    return result
 
 
 def part_1(data: np.ndarray, connections: int):
@@ -43,7 +52,6 @@ def part_1(data: np.ndarray, connections: int):
     performed_connections = 0
     the_closest_pair = np.zeros
     connected_boxes = []
-    # multiplied_sizes = 0
 
     # Calculating distances between boxes
     d = distance.squareform(distance.pdist(coordinates))
@@ -67,33 +75,19 @@ def part_1(data: np.ndarray, connections: int):
             the_closest_pair = closest_pairs[
                 closest_pairs_distances.index(min(closest_pairs_distances))
             ]
-
         # Deleting used connections from a proximity list
         del closest_list[the_closest_pair[0]][1]
         del closest_list[the_closest_pair[1]][1]
 
         # Appending a new connction to a list
-        if connected_boxes == []:
-            connected_boxes.append(the_closest_pair)
-        else:
-            for index, box in enumerate(connected_boxes):
-                if (
-                    the_closest_pair[0] in connected_boxes[index]
-                    and the_closest_pair[1] not in connected_boxes[index]
-                ):
-                    connected_boxes[index].append(the_closest_pair[1])
-
-                if (
-                    the_closest_pair[1] in connected_boxes[index]
-                    and the_closest_pair[0] not in connected_boxes[index]
-                ):
-                    connected_boxes[index].append(the_closest_pair[0])
-
+        connected_boxes.append(the_closest_pair)
         performed_connections += 1
 
-    return connected_boxes
+    result = circuit_lenghts(connected_boxes)
+    return result
 
 
-print(part_1(parse_data(sample_file), number_of_connections))
-# print(connect_pairs(part_1(parse_data(sample_file), 10)))
-# print(connect_pairs(test_pairs))
+print(
+    part_1(parse_data(input_file), number_of_connections),
+    "is the number of multiplied together the sizes of the three largest circuits.",
+)
