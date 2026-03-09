@@ -19,11 +19,13 @@ def parse_data(data: str) -> np.ndarray:
         return box_coordinates_np
 
 
-def circuit_lenghts(pairs):
+def circuit_lenghts(pairs: list) -> int:
     """Calculating multiplication of 3 longest circuit lengths"""
     lengths = []
     boxes = set(map(frozenset, pairs))
     groups = []
+
+    # Appending boxes into groups
     while boxes:
         group = set()
         groups.append([])
@@ -40,14 +42,14 @@ def circuit_lenghts(pairs):
     for group in groups:
         lengths.append(len(set(list(itertools.chain.from_iterable(group)))))
 
+    # Multiplying three longest circuits
     result = math.prod(sorted(lengths)[-3:])
 
     return result
 
 
-def part_1(data: np.ndarray, connections: int):
+def part_1(data: np.ndarray, connections: int) -> int:
     """Part 1 logic"""
-
     coordinates = data
     performed_connections = 0
     the_closest_pair = np.zeros
@@ -60,8 +62,8 @@ def part_1(data: np.ndarray, connections: int):
     for row in closest:
         closest_list.append([int(char) for char in row])
 
+    # Choosing closest pairs
     while performed_connections < connections:
-        # Choosing closest pairs
         closest_pairs = [row[:2] for row in closest_list]
         closest_pairs_distances = []
         the_closest_pair = []
