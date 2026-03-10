@@ -5,7 +5,7 @@ import math
 
 input_file = "input.txt"
 sample_file = "sample.txt"
-number_of_connections = 1000
+number_of_connections = 10
 
 
 def parse_data(data: str) -> np.ndarray:
@@ -48,11 +48,12 @@ def circuit_lenghts(pairs: list) -> int:
     return result
 
 
-def part_1(data: np.ndarray, connections: int) -> int:
+def part_1(data: np.ndarray, connections: int) -> tuple:
     """Part 1 logic"""
     coordinates = data
     performed_connections = 0
     the_closest_pair = np.zeros
+    the_most_distant_pair = np.zeros
     connected_boxes = []
 
     # Calculating distances between boxes
@@ -77,6 +78,10 @@ def part_1(data: np.ndarray, connections: int) -> int:
             the_closest_pair = closest_pairs[
                 closest_pairs_distances.index(min(closest_pairs_distances))
             ]
+
+            the_most_distant_pair = closest_pairs[
+                closest_pairs_distances.index(max(closest_pairs_distances))
+            ]
         # Deleting used connections from a proximity list
         del closest_list[the_closest_pair[0]][1]
         del closest_list[the_closest_pair[1]][1]
@@ -86,10 +91,37 @@ def part_1(data: np.ndarray, connections: int) -> int:
         performed_connections += 1
 
     result = circuit_lenghts(connected_boxes)
-    return result
+
+    return result, the_most_distant_pair
+
+
+# print(
+#     part_1(parse_data(sample_file), number_of_connections)[0],
+#     "is the number of multiplied together the sizes of the three largest circuits.",
+# )
+
+
+def part_2(data: np.ndarray, last_pair: list) -> int:
+    """Part 2 logic"""
+    print("last pair", last_pair)
+    print("first x", data[last_pair[0], 0])
+    print("second x", data[last_pair[1], 0])
+
+    x_multiplications = 0
+    x_coordinates = []
+
+    x_coordinates.append(data[last_pair[0], 0])
+    x_coordinates.append(data[last_pair[1], 0])
+    x_multiplications = math.prod(x_coordinates)
+
+    return x_multiplications
 
 
 print(
-    part_1(parse_data(input_file), number_of_connections),
-    "is the number of multiplied together the sizes of the three largest circuits.",
+    "You get",
+    part_2(
+        parse_data(sample_file),
+        part_1(parse_data(sample_file), number_of_connections)[1],
+    ),
+    "if you multiply together the X coordinates of the last two junction boxes you need to connect.",
 )
