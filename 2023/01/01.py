@@ -1,9 +1,12 @@
+import re
+
 input_file = "input.txt"
 sample_file = "sample.txt"
 sample_02_file = "sample_02.txt"
 
 
 def parse_data(data: str) -> list:
+    """Parsing the data"""
     words = []
     with open(data, "r") as f:
         lines = f.readlines()
@@ -35,23 +38,51 @@ def part_2(data: list) -> int:
     """Part 2 logic"""
     lines = data
     sum = 0
+
     digits_strings = [
-        "zero",
-        "one",
-        "two",
-        "three",
-        "four",
-        "six",
-        "seven",
-        "eight",
-        "nine",
+        [
+            "zero",
+            "one",
+            "two",
+            "three",
+            "four",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+        ],
+        [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+        ],
     ]
 
-    for line in lines:
-        for digit in digits_strings:
+    digits_indexes = []
+    for index, line in enumerate(lines):
+        line_indexes = []
+        for digit in digits_strings[0]:
+            pair = []
             if digit in line:
-                line.replace("two", "2")
-                print(line)
+                pair.append(int(line.index(digit)))
+                pair.append(int(digits_strings[1][index]))
+            line_indexes.append(pair)
+        digits_indexes.append(line_indexes)
+
+    for index in digits_indexes:
+        print(index)
+    # for line in lines:
+    # print(line)
+
+    # sum = part_1(lines)
+
     return sum
 
 
