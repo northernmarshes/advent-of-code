@@ -37,51 +37,9 @@ def part_2(data: list) -> int:
     """Part 2 logic"""
     sum = 0
     lines = data
-    digit_indexes = []
-
-    digits_strings = [
-        [
-            "zero",
-            "one",
-            "two",
-            "three",
-            "four",
-            "six",
-            "seven",
-            "eight",
-            "nine",
-        ],
-        [
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-        ],
-    ]
     for line in lines:
-        line_indexes = []
-        for digit in digits_strings[0]:
-            index = line.find(digit)
-            line_indexes.append(index)
-        digit_indexes.append(line_indexes)
-
-    for index in digit_indexes:
-        print(max(index), min(index))
-
-    # for line_indexes in digit_indexes:
-    #     for index in line_indexes:
-    #         if index != -1:
-    #
-    #             print(index)
-    
-
-
+        first_num = re.findall(r"\d|(?:one|two|three|four|five|six|seven|eight|nine)", line)
+        print(first_num)
     return sum
 
 print(part_2(parse_data(sample_02_file)))
