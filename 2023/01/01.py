@@ -33,11 +33,11 @@ def part_1(data: list) -> int:
 
 # print(part_1(parse_data(input_file)))
 
-
 def part_2(data: list) -> int:
     """Part 2 logic"""
-    lines = data
     sum = 0
+    lines = data
+    digit_indexes = []
 
     digits_strings = [
         [
@@ -64,26 +64,24 @@ def part_2(data: list) -> int:
             "9",
         ],
     ]
-
-    digits_indexes = []
-    for index, line in enumerate(lines):
+    for line in lines:
         line_indexes = []
         for digit in digits_strings[0]:
-            pair = []
-            if digit in line:
-                pair.append(int(line.index(digit)))
-                pair.append(int(digits_strings[1][index]))
-            line_indexes.append(pair)
-        digits_indexes.append(line_indexes)
+            index = line.find(digit)
+            line_indexes.append(index)
+        digit_indexes.append(line_indexes)
 
-    for index in digits_indexes:
-        print(index)
-    # for line in lines:
-    # print(line)
+    for index in digit_indexes:
+        print(max(index), min(index))
 
-    # sum = part_1(lines)
+    # for line_indexes in digit_indexes:
+    #     for index in line_indexes:
+    #         if index != -1:
+    #
+    #             print(index)
+    
+
 
     return sum
-
 
 print(part_2(parse_data(sample_02_file)))
