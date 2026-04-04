@@ -11,7 +11,6 @@ fn main() {
     let mut calories: u32 = 0;
     let mut top_three_elves_calories: u32 = 0;
     let mut each_elfs_calories: Vec<u32> = vec![];
-    let mut three_richest_elves: Vec<u32> = vec![];
     
     // Calculate calories of each elf.
     for line in lines {
