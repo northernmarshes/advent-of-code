@@ -13,17 +13,16 @@ fn main() {
     }
 
     // Game logic
-    for round in &rounds{
+    for round in &rounds {
+        // X - loose   0
+        // Y - draw    1
+        // Z - win     3
 
-            // X - loose   0
-            // Y - draw    1
-            // Z - win     3
+        // A  Rock     1
+        // B  Paper    2
+        // C  Scissors 3
 
-            // A  Rock     1
-            // B  Paper    2
-            // C  Scissors 3
-
-            // Rock
+        // Rock
         if round[0] == "A" && round[1] == "Y" {
             // rock
             score += 1;
@@ -77,8 +76,9 @@ fn main() {
 
 /// Change text file into an iterator.
 fn read_lines(name: &str) -> Vec<String> {
-    read_to_string(name).unwrap()
-                        .lines()
-                        .map(String::from)
-                        .collect()
+    read_to_string(name)
+        .unwrap()
+        .lines()
+        .map(String::from)
+        .collect()
 }
