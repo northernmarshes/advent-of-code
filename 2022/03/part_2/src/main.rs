@@ -15,9 +15,8 @@ fn main() {
 
     // Group elves into groups of three.
     for _num in 0..lines.len() / 3 {
-        let mut group: Vec<String> = Vec::new();
+        let mut group: Vec<String> = vec![lines.pop().expect("out of bounds")];
         // TODO: find a way to pop multiple
-        group.push(lines.pop().expect("out of bounds"));
         group.push(lines.pop().expect("out of bounds"));
         group.push(lines.pop().expect("out of bounds"));
         elf_groups.push(group);
