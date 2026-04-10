@@ -4,14 +4,44 @@ pub fn process_part1(input: &str) -> String {
     let lines = read_lines(input);
     // let boxes: Vec<Vec<char>> = Vec::new();
     let result = String::from("");
+    let mut crate_lines: Vec<&String> = Vec::new();
+    let mut stacks_count: usize = 0;
+    let mut stacks_line_length = 0;
+    let mut indexes: Vec<u8> = vec![1];
 
+    // separate lines with crate names and count the stacks
     for line in &lines {
-        let mut box_lines: Vec<&String> = Vec::new();
         if line.contains("[") {
-            box_lines.push(line);
-            println!("{line}");
+            crate_lines.push(line);
+            if line.len() > stacks_count {
+                stacks_count = (line.len() + 1) / 4;
+                stacks_line_length = line.len();
+            }
         }
     }
+
+    // find indexes of each stack
+    for _stack in 0..stacks_count - 1 {
+        let line = indexes[indexes.len() - 1];
+        indexes.push(line + 4);
+    }
+
+    println!("{indexes:?}");
+
+    // construct vectors with crate stacks
+    for line in &crate_lines {
+        for index in indexes {
+            let crate_name = line.chars().nth(index).unwrap();
+            // if crate_name != '' {
+            //     println!({ line.chars().nth().[index] })
+            }
+        }
+        println!("{line}")
+    }
+
+    println!("Stacks counts is {stacks_count}");
+    println!("Stacks indexes are {stacks_line_length}");
+    // println!("{crate_lines:?}");
     result
 }
 
@@ -28,20 +58,21 @@ pub fn read_lines(name: &str) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    const INPUT: &str = "
-    [D]    
-[N] [C]    
-[Z] [M] [P]
- 1   2   3 
 
-move 1 from 2 to 1
-move 3 from 1 to 3
-move 2 from 2 to 1
-move 1 from 1 to 2";
+    //     [D]
+    // [N] [C]
+    // [Z] [M] [P]
+    //  1   2   3
+    //
+    // move 1 from 2 to 1
+    // move 3 from 1 to 3
+    // move 2 from 2 to 1
+    // move 1 from 1 to 2"
 
     #[test]
     fn part1_works() {
-        let result = process_part1(INPUT);
+        let input = "./sample.txt";
+        let result = process_part1(input);
         assert_eq!(result, "CMZ");
     }
 }
