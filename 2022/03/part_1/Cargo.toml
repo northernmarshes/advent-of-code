@@ -1,7 +1,0 @@
-[package]
-name = "part_1"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-common_substrings = "1.0.0"
