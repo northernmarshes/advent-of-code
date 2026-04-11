@@ -2,17 +2,17 @@ use std::fs::read_to_string;
 
 pub fn process_part1(input: &str) -> String {
     let lines = read_lines(input);
-    // let boxes: Vec<Vec<char>> = Vec::new();
     let result = String::from("");
-    let mut crate_lines: Vec<&String> = Vec::new();
+    let mut crate_lines: Vec<String> = Vec::new();
     let mut stacks_count: usize = 0;
     let mut stacks_line_length = 0;
-    let mut indexes: Vec<u8> = vec![1];
+    let mut indexes: Vec<usize> = vec![1];
+    let mut stacks: Vec<Vec<char>> = Vec::new();
 
     // separate lines with crate names and count the stacks
-    for line in &lines {
+    for line in lines {
         if line.contains("[") {
-            crate_lines.push(line);
+            crate_lines.push(line.clone());
             if line.len() > stacks_count {
                 stacks_count = (line.len() + 1) / 4;
                 stacks_line_length = line.len();
@@ -22,23 +22,24 @@ pub fn process_part1(input: &str) -> String {
 
     // find indexes of each stack
     for _stack in 0..stacks_count - 1 {
-        let line = indexes[indexes.len() - 1];
+        let line = indexes[indexes.len() - 1] as usize;
         indexes.push(line + 4);
     }
 
-    println!("{indexes:?}");
-
     // construct vectors with crate stacks
-    for line in &crate_lines {
-        for index in indexes {
-            let crate_name = line.chars().nth(index).unwrap();
-            // if crate_name != '' {
-            //     println!({ line.chars().nth().[index] })
+    for index in &indexes {
+        let mut stack: Vec<char> = Vec::new();
+        for line in &crate_lines {
+            let i: usize = *index;
+            let crate_name = line.chars().nth(i).unwrap();
+            if crate_name.is_alphabetic() {
+                stack.push(crate_name);
             }
         }
-        println!("{line}")
+        stacks.push(stack);
     }
 
+    println!("{stacks:?}");
     println!("Stacks counts is {stacks_count}");
     println!("Stacks indexes are {stacks_line_length}");
     // println!("{crate_lines:?}");
