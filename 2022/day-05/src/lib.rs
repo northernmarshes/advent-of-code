@@ -2,12 +2,13 @@ use std::fs::read_to_string;
 
 pub fn process_part1(input: &str) -> String {
     let lines = read_lines(input);
-    let result = String::from("");
+    let mut result = String::from("");
     let mut crate_lines: Vec<String> = Vec::new();
+    let mut instruction_lines: Vec<String> = Vec::new();
     let mut stacks_count: usize = 0;
-    let mut stacks_line_length = 0;
     let mut indexes: Vec<usize> = vec![1];
     let mut stacks: Vec<Vec<char>> = Vec::new();
+    let mut instructions: Vec<Vec<usize>> = Vec::new();
 
     // separate lines with crate names and count the stacks
     for line in lines {
@@ -15,8 +16,9 @@ pub fn process_part1(input: &str) -> String {
             crate_lines.push(line.clone());
             if line.len() > stacks_count {
                 stacks_count = (line.len() + 1) / 4;
-                stacks_line_length = line.len();
             }
+        } else if line.contains("move") {
+            instruction_lines.push(line.clone());
         }
     }
 
@@ -25,6 +27,31 @@ pub fn process_part1(input: &str) -> String {
         let line = indexes[indexes.len() - 1] as usize;
         indexes.push(line + 4);
     }
+
+    // parse instructions to vectors
+    for line in &instruction_lines {
+        let mut instruction: Vec<usize> = Vec::new();
+        for char in line.chars() {
+            if char.is_numeric() {
+                let inst = char as usize - '0' as usize;
+                instruction.push(inst);
+            }
+        }
+        // walkaround for numbers of operations larger then 9
+        if instruction.len() > 3 {
+            let decimal = instruction[0] * 10;
+            instruction[1] += decimal;
+            instruction.reverse();
+            instruction.pop();
+            instruction.reverse();
+            instructions.push(instruction);
+        } else {
+            instructions.push(instruction);
+        }
+    }
+
+    // reverse the lines
+    crate_lines.reverse();
 
     // construct vectors with crate stacks
     for index in &indexes {
@@ -39,14 +66,37 @@ pub fn process_part1(input: &str) -> String {
         stacks.push(stack);
     }
 
-    println!("{stacks:?}");
-    println!("Stacks counts is {stacks_count}");
-    println!("Stacks indexes are {stacks_line_length}");
-    // println!("{crate_lines:?}");
+    // move crates
+    for instruction in instructions {
+        stacks = move_crates(stacks, instruction);
+    }
+
+    // check what's on top
+    for stack in stacks {
+        let top_crate = stack[stack.len() - 1];
+        result.push(top_crate);
+    }
+
     result
 }
 
 pub fn process_part2() {}
+
+// crate movement logic
+pub fn move_crates(stack: Vec<Vec<char>>, moves: Vec<usize>) -> Vec<Vec<char>> {
+    let mut boxes = stack;
+    let mut layers_to_move = moves[0];
+    let crate_to_move: usize = moves[1] - 1;
+    let destination_stack = moves[2] - 1;
+
+    while 0 < layers_to_move {
+        let last_crate: char = boxes[crate_to_move].pop().unwrap();
+        layers_to_move -= 1;
+        boxes[destination_stack].push(last_crate);
+    }
+
+    boxes
+}
 
 pub fn read_lines(name: &str) -> Vec<String> {
     read_to_string(name)
@@ -75,5 +125,33 @@ mod tests {
         let input = "./sample.txt";
         let result = process_part1(input);
         assert_eq!(result, "CMZ");
+    }
+
+    #[test]
+    fn move_crates_works() {
+        let crates = vec![vec!['A', 'B', 'C'], vec!['C', 'D', 'F']];
+        let crates_after = vec![vec!['A', 'B', 'C', 'F'], vec!['C', 'D']];
+        let instructions: Vec<usize> = vec![1, 2, 1];
+        let result = move_crates(crates, instructions);
+        assert_eq!(result, crates_after);
+    }
+
+    #[test]
+    fn move_crates_more_then_9() {
+        let crates = vec![
+            vec!['A', 'B', 'C'],
+            vec![
+                'C', 'D', 'F', 'Z', 'G', 'H', 'E', 'B', 'W', 'N', 'Q', 'L', 'P', 'E',
+            ],
+        ];
+        let crates_after = vec![
+            vec![
+                'A', 'B', 'C', 'E', 'P', 'L', 'Q', 'N', 'W', 'B', 'E', 'H', 'G', 'Z', 'F',
+            ],
+            vec!['C', 'D'],
+        ];
+        let instructions: Vec<usize> = vec![12, 2, 1];
+        let result = move_crates(crates, instructions);
+        assert_eq!(result, crates_after);
     }
 }
