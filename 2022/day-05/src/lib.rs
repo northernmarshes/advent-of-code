@@ -41,9 +41,7 @@ pub fn process_part1(input: &str) -> String {
         if instruction.len() > 3 {
             let decimal = instruction[0] * 10;
             instruction[1] += decimal;
-            instruction.reverse();
-            instruction.pop();
-            instruction.reverse();
+            instruction.remove(0);
             instructions.push(instruction);
         } else {
             instructions.push(instruction);
@@ -98,6 +96,7 @@ pub fn move_crates(stack: Vec<Vec<char>>, moves: Vec<usize>) -> Vec<Vec<char>> {
     boxes
 }
 
+// parse the input
 pub fn read_lines(name: &str) -> Vec<String> {
     read_to_string(name)
         .unwrap()
