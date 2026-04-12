@@ -1,8 +1,43 @@
-use std::fs::read_to_string;
+use std::{fs::read_to_string, vec};
 
 pub fn process_part1(input: &str) -> String {
-    let lines = read_lines(input);
     let mut result = String::from("");
+    let (mut stacks, instructions) = parse_crates_and_instructions(input);
+
+    // move crates with CM9000
+    for instruction in instructions {
+        stacks = move_crates_with_cratemover_9000(stacks, instruction);
+    }
+
+    // check what's on top
+    for stack in stacks {
+        let top_crate = stack[stack.len() - 1];
+        result.push(top_crate);
+    }
+
+    result
+}
+
+pub fn process_part2(input: &str) -> String {
+    let mut result = String::from("");
+    let (mut stacks, instructions) = parse_crates_and_instructions(input);
+
+    // move crates with CM9001
+    for instruction in instructions {
+        stacks = move_crates_with_cratemover_9001(stacks, instruction);
+    }
+
+    // check what's on top
+    for stack in stacks {
+        let top_crate = stack[stack.len() - 1];
+        result.push(top_crate);
+    }
+
+    result
+}
+
+pub fn parse_crates_and_instructions(input: &str) -> (Vec<Vec<char>>, Vec<Vec<usize>>) {
+    let lines = read_lines(input);
     let mut crate_lines: Vec<String> = Vec::new();
     let mut instruction_lines: Vec<String> = Vec::new();
     let mut stacks_count: usize = 0;
@@ -63,25 +98,14 @@ pub fn process_part1(input: &str) -> String {
         }
         stacks.push(stack);
     }
-
-    // move crates
-    for instruction in instructions {
-        stacks = move_crates(stacks, instruction);
-    }
-
-    // check what's on top
-    for stack in stacks {
-        let top_crate = stack[stack.len() - 1];
-        result.push(top_crate);
-    }
-
-    result
+    (stacks, instructions)
 }
 
-pub fn process_part2() {}
-
-// crate movement logic
-pub fn move_crates(stack: Vec<Vec<char>>, moves: Vec<usize>) -> Vec<Vec<char>> {
+// part 1 crate movement logic
+pub fn move_crates_with_cratemover_9000(
+    stack: Vec<Vec<char>>,
+    moves: Vec<usize>,
+) -> Vec<Vec<char>> {
     let mut boxes = stack;
     let mut layers_to_move = moves[0];
     let crate_to_move: usize = moves[1] - 1;
@@ -96,6 +120,31 @@ pub fn move_crates(stack: Vec<Vec<char>>, moves: Vec<usize>) -> Vec<Vec<char>> {
     boxes
 }
 
+// part 2 crate movement logic
+pub fn move_crates_with_cratemover_9001(
+    stack: Vec<Vec<char>>,
+    moves: Vec<usize>,
+) -> Vec<Vec<char>> {
+    let mut boxes = stack;
+    let mut layers_to_move = moves[0];
+    let crate_to_move: usize = moves[1] - 1;
+    let destination_stack = moves[2] - 1;
+    let mut grab: Vec<char> = Vec::new();
+
+    while 0 < layers_to_move {
+        let last_crate: char = boxes[crate_to_move].pop().unwrap();
+        layers_to_move -= 1;
+        grab.push(last_crate);
+    }
+
+    grab.reverse();
+
+    for portion in grab {
+        boxes[destination_stack].push(portion);
+    }
+
+    boxes
+}
 // parse the input
 pub fn read_lines(name: &str) -> Vec<String> {
     read_to_string(name)
@@ -131,7 +180,7 @@ mod tests {
         let crates = vec![vec!['A', 'B', 'C'], vec!['C', 'D', 'F']];
         let crates_after = vec![vec!['A', 'B', 'C', 'F'], vec!['C', 'D']];
         let instructions: Vec<usize> = vec![1, 2, 1];
-        let result = move_crates(crates, instructions);
+        let result = move_crates_with_cratemover_9000(crates, instructions);
         assert_eq!(result, crates_after);
     }
 
@@ -150,7 +199,7 @@ mod tests {
             vec!['C', 'D'],
         ];
         let instructions: Vec<usize> = vec![12, 2, 1];
-        let result = move_crates(crates, instructions);
+        let result = move_crates_with_cratemover_9000(crates, instructions);
         assert_eq!(result, crates_after);
     }
 }
