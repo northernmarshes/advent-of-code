@@ -3,14 +3,25 @@ use std::fs::read_to_string;
 pub fn process_part1(input: &str) -> String {
     let result: u32 = 0;
     let lines = read_lines(input);
-    println!("{lines:#?}");
+    let mut folder_names: Vec<char> = Vec::new();
+    let mut _folder_sizes: Vec<u32> = Vec::new();
+
+    for line in &lines {
+        if line.contains("dir") {
+            let dir = line.clone();
+            folder_names.push(dir.chars().last().unwrap());
+        }
+    }
+
+    for folder in folder_names {
+        for line in &lines {
+            if line.contains("cd") && line.contains(folder) {
+                println!("{line}")
+            }
+        }
+    }
     result.to_string()
 }
-
-// pub fn process_part2(input: &str) -> String {
-//     let mut result: u32 = 0;
-//     result.to_string()
-// }
 
 // parse the input
 pub fn read_lines(name: &str) -> Vec<String> {
@@ -50,9 +61,16 @@ mod tests {
     // 7214296 k
 
     #[test]
-    fn part1_works_01() {
+    fn part1_works() {
         let input = "./sample.txt";
         let result = process_part1(input);
         assert_eq!(result, "95437");
     }
+
+    // #[test]
+    // fn part2_works() {
+    //     let input = "./sample.txt";
+    //     let result = process_part2(input);
+    //     assert_eq!(result, "95437");
+    // }
 }
