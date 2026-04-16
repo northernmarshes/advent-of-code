@@ -1,25 +1,57 @@
-use std::fs::read_to_string;
+use std::{collections::HashMap, fs::read_to_string};
 
 pub fn process_part1(input: &str) -> String {
     let result: u32 = 0;
     let lines = read_lines(input);
-    let mut folder_names: Vec<char> = Vec::new();
-    let mut _folder_sizes: Vec<u32> = Vec::new();
+    let mut current_folder: char = '/';
+    let mut previous_folders: Vec<char> = Vec::new();
+    let mut folder_sizes: HashMap<char, u32> = HashMap::new();
 
+    // make a list of directories
     for line in &lines {
         if line.contains("dir") {
-            let dir = line.clone();
-            folder_names.push(dir.chars().last().unwrap());
+            let dir = line.clone().chars().last().unwrap();
+            folder_sizes.insert(dir, 0);
         }
     }
 
-    for folder in folder_names {
-        for line in &lines {
-            if line.contains("cd") && line.contains(folder) {
-                println!("{line}")
+    // main logic
+    // TODO: add folder encapsulation
+    for line in lines {
+        let current_line = line;
+        let first_char = current_line.chars().next().unwrap();
+        if current_line.contains("$") {
+            if current_line.contains("cd") {
+                let current_command = &current_line;
+                let current_command_last = current_command.chars().last().unwrap();
+                if current_command_last.is_alphanumeric() {
+                    previous_folders.push(current_folder);
+                    current_folder = current_command_last;
+                    println!("current folder is: {current_folder}");
+                } else if current_command_last == '.' {
+                    let previous = previous_folders.pop().unwrap_or('/');
+                    println!("Im going back from {current_folder} to {previous}");
+                    current_folder = previous;
+                } else if current_line.contains("ls") {
+                    println!("ls command triggered");
+                }
             }
+        } else if current_line.contains("dir") {
+            println!("directory!")
+        } else if first_char.is_numeric() {
+            let mut words = current_line.as_str().split_whitespace();
+            let first_word = words.next().unwrap();
+            let file_size = first_word.parse::<u32>().unwrap();
+            let current_size = folder_sizes.get(&current_folder).copied().unwrap_or(0);
+            let input = current_size + file_size;
+            folder_sizes.insert(current_folder, input);
+            println!(
+                "its numeric and current folder is: {current_folder} and I'm inputing {file_size} and the total is {input}"
+            );
         }
     }
+
+    println!("{folder_sizes:#?}");
     result.to_string()
 }
 
