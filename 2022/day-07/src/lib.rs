@@ -1,3 +1,4 @@
+use rand::prelude::*;
 use std::{collections::HashMap, fs::read_to_string};
 
 pub fn process_part1(input: &str) -> String {
@@ -6,9 +7,28 @@ pub fn process_part1(input: &str) -> String {
     let mut current_folder: String = String::from("/");
     let mut previous_folders: Vec<String> = Vec::new();
     let mut folder_sizes: HashMap<String, u32> = HashMap::new();
+    let mut lines_df: Vec<String> = Vec::new();
+
+    // adding randint to repeated folder names
+    let mut rng = rand::rng();
+    for line in &lines {
+        if line.contains("..") {
+            lines_df.push(line.clone());
+        } else if line.contains("$ cd") && lines_df.contains(line) {
+            // println!("{line}");
+            let n = line.clone();
+            let random: u32 = rng.random();
+            let w: String = random.to_string();
+            lines_df.push(n + &w);
+        } else {
+            lines_df.push(line.clone());
+        }
+    }
+
+    // println!("with different names{lines_df:#?}");
 
     // make a list of directories
-    for line in &lines {
+    for line in &lines_df {
         if line.contains("dir") {
             let words = line.as_str().split_whitespace();
             let dir = String::from(words.last().unwrap());
@@ -17,7 +37,7 @@ pub fn process_part1(input: &str) -> String {
     }
 
     // main logic
-    for line in lines {
+    for line in lines_df {
         let current_line = line;
         let first_char = current_line.chars().next().unwrap();
         if current_line.contains("$") {
@@ -32,7 +52,7 @@ pub fn process_part1(input: &str) -> String {
                     // println!("current folder is: {current_folder}");
                 } else if current_command_last == '.' {
                     let previous = previous_folders.pop().unwrap_or(String::from("/"));
-                    // println!("Im going back from {current_folder} to {previous}");
+                    // println!("$ going back from {current_folder} to {previous}");
                     current_folder = previous;
                 } else if current_line.contains("ls") {
                     // println!("ls command triggered");
@@ -48,31 +68,32 @@ pub fn process_part1(input: &str) -> String {
             let input = current_size + file_size;
             let key = current_folder.to_owned();
             folder_sizes.insert(key, input);
-            println!(
-                "its numeric and current folder is: {current_folder} and I'm inputing {file_size} and the total is {input}"
-            );
+            // println!(
+            //     "$ the current folder is: {current_folder} and I'm inputing {file_size} and the total is {input}"
+            // );
 
             // add size to the previous folder
-            //TODO: fix path tracking
             if current_folder != "/" {
-                for folder in &previous_folders {
+                for folder in previous_folders.iter().rev() {
                     // let path_len = previous_folders.len();
+                    // println!("we are {path_len} folders from the root");
                     // println!("path is now {path_len} long.");
                     let previous_folder = folder.clone();
                     let previous_folder_current_size =
                         folder_sizes.get(&previous_folder).copied().unwrap_or(0);
                     let previous_folder_input = previous_folder_current_size + file_size;
+                    // println!("Updating previous {previous_folder} with {previous_folder_input}");
                     folder_sizes.insert(previous_folder, previous_folder_input);
                 }
             }
         }
     }
 
-    println!("{folder_sizes:#?}");
+    // println!("{folder_sizes:#?}");
 
     // calculate sum of folders lesser then 100000
     for (_key, value) in folder_sizes {
-        if value <= 100000 {
+        if value < 100000 {
             result += value;
         }
     }
