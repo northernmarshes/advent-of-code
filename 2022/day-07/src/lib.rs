@@ -3,14 +3,15 @@ use std::{collections::HashMap, fs::read_to_string};
 pub fn process_part1(input: &str) -> String {
     let mut result: u32 = 0;
     let lines = read_lines(input);
-    let mut current_folder: char = '/';
-    let mut previous_folders: Vec<char> = Vec::new();
-    let mut folder_sizes: HashMap<char, u32> = HashMap::new();
+    let mut current_folder: String = String::from("/");
+    let mut previous_folders: Vec<String> = Vec::new();
+    let mut folder_sizes: HashMap<String, u32> = HashMap::new();
 
     // make a list of directories
     for line in &lines {
         if line.contains("dir") {
-            let dir = line.clone().chars().last().unwrap();
+            let words = line.as_str().split_whitespace();
+            let dir = String::from(words.last().unwrap());
             folder_sizes.insert(dir, 0);
         }
     }
@@ -25,10 +26,12 @@ pub fn process_part1(input: &str) -> String {
                 let current_command_last = current_command.chars().last().unwrap();
                 if current_command_last.is_alphanumeric() {
                     previous_folders.push(current_folder);
-                    current_folder = current_command_last;
+                    let words = current_line.as_str().split_whitespace();
+                    let folder_name = words.last().unwrap();
+                    current_folder = String::from(folder_name);
                     // println!("current folder is: {current_folder}");
                 } else if current_command_last == '.' {
-                    let previous = previous_folders.pop().unwrap_or('/');
+                    let previous = previous_folders.pop().unwrap_or(String::from("/"));
                     // println!("Im going back from {current_folder} to {previous}");
                     current_folder = previous;
                 } else if current_line.contains("ls") {
@@ -43,14 +46,15 @@ pub fn process_part1(input: &str) -> String {
             let file_size = first_word.parse::<u32>().unwrap();
             let current_size = folder_sizes.get(&current_folder).copied().unwrap_or(0);
             let input = current_size + file_size;
-            folder_sizes.insert(current_folder, input);
+            let key = current_folder.to_owned();
+            folder_sizes.insert(key, input);
             println!(
                 "its numeric and current folder is: {current_folder} and I'm inputing {file_size} and the total is {input}"
             );
 
             // add size to the previous folder
             //TODO: fix path tracking
-            if current_folder != '/' {
+            if current_folder != "/" {
                 for folder in &previous_folders {
                     // let path_len = previous_folders.len();
                     // println!("path is now {path_len} long.");
@@ -68,7 +72,7 @@ pub fn process_part1(input: &str) -> String {
 
     // calculate sum of folders lesser then 100000
     for (_key, value) in folder_sizes {
-        if value < 100000 {
+        if value <= 100000 {
             result += value;
         }
     }
