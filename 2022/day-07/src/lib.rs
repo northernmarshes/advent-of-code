@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs::read_to_string};
 
 pub fn process_part1(input: &str) -> String {
-    let result: u32 = 0;
+    let mut result: u32 = 0;
     let lines = read_lines(input);
     let mut current_folder: char = '/';
     let mut previous_folders: Vec<char> = Vec::new();
@@ -16,7 +16,6 @@ pub fn process_part1(input: &str) -> String {
     }
 
     // main logic
-    // TODO: add folder encapsulation
     for line in lines {
         let current_line = line;
         let first_char = current_line.chars().next().unwrap();
@@ -27,17 +26,17 @@ pub fn process_part1(input: &str) -> String {
                 if current_command_last.is_alphanumeric() {
                     previous_folders.push(current_folder);
                     current_folder = current_command_last;
-                    println!("current folder is: {current_folder}");
+                    // println!("current folder is: {current_folder}");
                 } else if current_command_last == '.' {
                     let previous = previous_folders.pop().unwrap_or('/');
-                    println!("Im going back from {current_folder} to {previous}");
+                    // println!("Im going back from {current_folder} to {previous}");
                     current_folder = previous;
                 } else if current_line.contains("ls") {
-                    println!("ls command triggered");
+                    // println!("ls command triggered");
                 }
             }
         } else if current_line.contains("dir") {
-            println!("directory!")
+            // println!("directory!")
         } else if first_char.is_numeric() {
             let mut words = current_line.as_str().split_whitespace();
             let first_word = words.next().unwrap();
@@ -48,10 +47,31 @@ pub fn process_part1(input: &str) -> String {
             println!(
                 "its numeric and current folder is: {current_folder} and I'm inputing {file_size} and the total is {input}"
             );
+
+            // add size to the previous folder
+            //TODO: fix path tracking
+            if current_folder != '/' {
+                for folder in &previous_folders {
+                    // let path_len = previous_folders.len();
+                    // println!("path is now {path_len} long.");
+                    let previous_folder = folder.clone();
+                    let previous_folder_current_size =
+                        folder_sizes.get(&previous_folder).copied().unwrap_or(0);
+                    let previous_folder_input = previous_folder_current_size + file_size;
+                    folder_sizes.insert(previous_folder, previous_folder_input);
+                }
+            }
         }
     }
 
     println!("{folder_sizes:#?}");
+
+    // calculate sum of folders lesser then 100000
+    for (_key, value) in folder_sizes {
+        if value < 100000 {
+            result += value;
+        }
+    }
     result.to_string()
 }
 
