@@ -2,7 +2,42 @@ use rand::prelude::*;
 use std::{collections::HashMap, fs::read_to_string};
 
 pub fn process_part1(input: &str) -> String {
+    let folder_sizes = read_folder_sizes(input);
     let mut result: u32 = 0;
+
+    // calculate sum of folders lesser then 100000
+    for (_key, value) in folder_sizes {
+        if value < 100000 {
+            result += value;
+        }
+    }
+    result.to_string()
+}
+
+pub fn process_part2(input: &str) -> String {
+    let folder_sizes = read_folder_sizes(input);
+    let total_size: u32 = folder_sizes.get("/").copied().unwrap_or(0);
+    let needed_space = 30000000;
+    let available_space = 70000000 - total_size;
+    let space_to_free = needed_space - available_space;
+    let mut delete_candidates: Vec<u32> = Vec::new();
+
+    // calculate the smallest directory to delete
+    for (key, size) in &folder_sizes {
+        if size > &space_to_free {
+            let candidate = folder_sizes.get(key).unwrap();
+            //TODO: fix the clone problem
+            delete_candidates.push(candidate.clone());
+        }
+    }
+
+    let folder_to_delete = delete_candidates.iter().min().unwrap();
+    let result: u32 = *folder_to_delete;
+
+    result.to_string()
+}
+
+pub fn read_folder_sizes(input: &str) -> HashMap<String, u32> {
     let lines = read_lines(input);
     let mut current_folder: String = String::from("/");
     let mut previous_folders: Vec<String> = Vec::new();
@@ -15,7 +50,6 @@ pub fn process_part1(input: &str) -> String {
         if line.contains("..") {
             lines_df.push(line.clone());
         } else if line.contains("$ cd") && lines_df.contains(line) {
-            // println!("{line}");
             let n = line.clone();
             let random: u32 = rng.random();
             let w: String = random.to_string();
@@ -24,8 +58,6 @@ pub fn process_part1(input: &str) -> String {
             lines_df.push(line.clone());
         }
     }
-
-    // println!("with different names{lines_df:#?}");
 
     // make a list of directories
     for line in &lines_df {
@@ -49,17 +81,13 @@ pub fn process_part1(input: &str) -> String {
                     let words = current_line.as_str().split_whitespace();
                     let folder_name = words.last().unwrap();
                     current_folder = String::from(folder_name);
-                    // println!("current folder is: {current_folder}");
                 } else if current_command_last == '.' {
                     let previous = previous_folders.pop().unwrap_or(String::from("/"));
-                    // println!("$ going back from {current_folder} to {previous}");
                     current_folder = previous;
                 } else if current_line.contains("ls") {
-                    // println!("ls command triggered");
                 }
             }
         } else if current_line.contains("dir") {
-            // println!("directory!")
         } else if first_char.is_numeric() {
             let mut words = current_line.as_str().split_whitespace();
             let first_word = words.next().unwrap();
@@ -68,36 +96,19 @@ pub fn process_part1(input: &str) -> String {
             let input = current_size + file_size;
             let key = current_folder.to_owned();
             folder_sizes.insert(key, input);
-            // println!(
-            //     "$ the current folder is: {current_folder} and I'm inputing {file_size} and the total is {input}"
-            // );
 
-            // add size to the previous folder
             if current_folder != "/" {
                 for folder in previous_folders.iter().rev() {
-                    // let path_len = previous_folders.len();
-                    // println!("we are {path_len} folders from the root");
-                    // println!("path is now {path_len} long.");
                     let previous_folder = folder.clone();
                     let previous_folder_current_size =
                         folder_sizes.get(&previous_folder).copied().unwrap_or(0);
                     let previous_folder_input = previous_folder_current_size + file_size;
-                    // println!("Updating previous {previous_folder} with {previous_folder_input}");
                     folder_sizes.insert(previous_folder, previous_folder_input);
                 }
             }
         }
     }
-
-    // println!("{folder_sizes:#?}");
-
-    // calculate sum of folders lesser then 100000
-    for (_key, value) in folder_sizes {
-        if value < 100000 {
-            result += value;
-        }
-    }
-    result.to_string()
+    folder_sizes
 }
 
 // parse the input
@@ -144,10 +155,10 @@ mod tests {
         assert_eq!(result, "95437");
     }
 
-    // #[test]
-    // fn part2_works() {
-    //     let input = "./sample.txt";
-    //     let result = process_part2(input);
-    //     assert_eq!(result, "95437");
-    // }
+    #[test]
+    fn part2_works() {
+        let input = "./sample.txt";
+        let result = process_part2(input);
+        assert_eq!(result, "24933642");
+    }
 }
