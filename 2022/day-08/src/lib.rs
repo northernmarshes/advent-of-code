@@ -1,21 +1,25 @@
 use std::fs::read_to_string;
 
 pub fn process_part1(input: &str) -> String {
-    let result = 0;
+    let mut result = 0;
     let _trees_seen: u32 = 0;
     let forest = make_matrix(input);
+    let forest_edge = (forest.len() * 2) + (forest[0].len() * 2) - 4;
+    // println!("{forest_edge}");
+    result += forest_edge as u8;
 
     // println!("{forest:?}");
 
     // logic
     for row in forest[1..forest.len() - 1].iter() {
         for (i, tree) in row[1..row.len() - 1].iter().enumerate() {
-            let previous_highest = row[0..i].iter().max().unwrap_or(&0);
-            // println!("highest {previous_highest}");
+            let previous_highest = row[0..=i].iter().max().unwrap_or(&row[0]);
             if tree > previous_highest {
-                // println!("{tree}");
+                // println!("The tree visibile in line {row:?} is {tree}");
+                result += 1;
             }
         }
+        // println!("next line");
     }
 
     result.to_string()
