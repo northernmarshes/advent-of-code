@@ -2,25 +2,32 @@ use std::fs::read_to_string;
 
 pub fn process_part1(input: &str) -> String {
     let mut result: u32 = 0;
-    let _trees_seen: u32 = 0;
-    let forest = make_matrix(input);
-    let forest_edge = (forest.len() * 2) + (forest[0].len() * 2) - 4;
-    let mut rotation = 4;
+    let mut forest = make_matrix(input);
+    let forest_edge = (forest.len() * 4) - 4;
+    let mut rotation = 0;
     let brink = forest.len() - 1;
     result += forest_edge as u32;
-    // println!("{forest:?}");
 
-    while rotation > 0 {
-        for row in forest[1..brink].iter() {
+    while rotation < 3 {
+        let forest_copy = forest.clone();
+        for (r, row) in forest_copy[1..brink].iter().enumerate() {
             for (i, tree) in row[1..brink].iter().enumerate() {
                 let previous_highest = row[0..=i].iter().max().unwrap_or(&0);
                 if tree > previous_highest {
+                    println!("VISIBLE: {tree}");
+                    let row_index = r + 1;
+                    let column_index = i + 1;
+                    forest[row_index][column_index] = -1;
                     result += 1;
+                } else {
+                    println!("INVISIBLE: {tree}");
                 }
             }
-            println!("next line");
+            println!(">>> NEXT LINE");
         }
-        rotation -= 1;
+        forest = rotate_matrix(forest);
+        println!("FLIP!");
+        rotation += 1;
     }
 
     result.to_string()
@@ -30,13 +37,13 @@ pub fn process_part1(input: &str) -> String {
 // result.to_string()
 // }
 
-pub fn make_matrix(input: &str) -> Vec<Vec<u8>> {
+pub fn make_matrix(input: &str) -> Vec<Vec<i8>> {
     let lines = read_lines(input);
-    let mut forest_matrix: Vec<Vec<u8>> = Vec::new();
+    let mut forest_matrix: Vec<Vec<i8>> = Vec::new();
     for line in lines {
-        let mut tree_row: Vec<u8> = Vec::new();
+        let mut tree_row: Vec<i8> = Vec::new();
         for c in line.chars() {
-            let tree = c.to_string().parse::<u8>().unwrap();
+            let tree = c.to_string().parse::<i8>().unwrap();
             tree_row.push(tree);
         }
         forest_matrix.push(tree_row);
@@ -45,7 +52,7 @@ pub fn make_matrix(input: &str) -> Vec<Vec<u8>> {
 }
 
 /// reverse forest matrix
-pub fn rotate_matrix(input: Vec<Vec<u8>>) -> Vec<Vec<u8>> {
+pub fn rotate_matrix(input: Vec<Vec<i8>>) -> Vec<Vec<i8>> {
     let mut matrix = input.clone();
     for i in 0..matrix.len() {
         for j in i + 1..matrix.len() {
