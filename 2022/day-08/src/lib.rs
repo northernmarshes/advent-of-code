@@ -1,3 +1,4 @@
+use nalgebra::*;
 use std::fs::read_to_string;
 
 pub fn process_part1(input: &str) -> String {
@@ -5,10 +6,11 @@ pub fn process_part1(input: &str) -> String {
     let _trees_seen: u32 = 0;
     let forest = make_matrix(input);
     let forest_edge = (forest.len() * 2) + (forest[0].len() * 2) - 4;
-    // println!("{forest_edge}");
     result += forest_edge as u8;
-
     // println!("{forest:?}");
+
+    let reversed = reverse_matrix(&forest);
+    println!("{reversed:?}");
 
     // logic
     for row in forest[1..forest.len() - 1].iter() {
@@ -41,6 +43,23 @@ pub fn make_matrix(input: &str) -> Vec<Vec<u8>> {
         forest_matrix.push(tree_row);
     }
     forest_matrix
+}
+
+/// reverse forest matrix
+pub fn reverse_matrix(input: &Vec<Vec<u8>>) -> Vec<Vec<u8>> {
+    let _matrix = input;
+    let reversed: Vec<Vec<u8>> = Vec::new();
+    let mat = Matrix3::new(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+    println!("matrix: {mat:?}");
+    match mat.try_inverse() {
+        Some(inv) => {
+            println!("The inverse is {}", inv);
+        }
+        None => {
+            println!("Not invertible!");
+        }
+    }
+    reversed
 }
 
 // parse the input
