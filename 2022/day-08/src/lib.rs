@@ -1,27 +1,26 @@
-use nalgebra::*;
 use std::fs::read_to_string;
 
 pub fn process_part1(input: &str) -> String {
-    let mut result = 0;
+    let mut result: u32 = 0;
     let _trees_seen: u32 = 0;
     let forest = make_matrix(input);
     let forest_edge = (forest.len() * 2) + (forest[0].len() * 2) - 4;
-    result += forest_edge as u8;
+    let mut rotation = 4;
+    let brink = forest.len() - 1;
+    result += forest_edge as u32;
     // println!("{forest:?}");
 
-    let reversed = reverse_matrix(&forest);
-    println!("{reversed:?}");
-
-    // logic
-    for row in forest[1..forest.len() - 1].iter() {
-        for (i, tree) in row[1..row.len() - 1].iter().enumerate() {
-            let previous_highest = row[0..=i].iter().max().unwrap_or(&row[0]);
-            if tree > previous_highest {
-                // println!("The tree visibile in line {row:?} is {tree}");
-                result += 1;
+    while rotation > 0 {
+        for row in forest[1..brink].iter() {
+            for (i, tree) in row[1..brink].iter().enumerate() {
+                let previous_highest = row[0..=i].iter().max().unwrap_or(&0);
+                if tree > previous_highest {
+                    result += 1;
+                }
             }
+            println!("next line");
         }
-        // println!("next line");
+        rotation -= 1;
     }
 
     result.to_string()
@@ -46,20 +45,20 @@ pub fn make_matrix(input: &str) -> Vec<Vec<u8>> {
 }
 
 /// reverse forest matrix
-pub fn reverse_matrix(input: &Vec<Vec<u8>>) -> Vec<Vec<u8>> {
-    let _matrix = input;
-    let reversed: Vec<Vec<u8>> = Vec::new();
-    let mat = Matrix3::new(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-    println!("matrix: {mat:?}");
-    match mat.try_inverse() {
-        Some(inv) => {
-            println!("The inverse is {}", inv);
-        }
-        None => {
-            println!("Not invertible!");
+pub fn rotate_matrix(input: Vec<Vec<u8>>) -> Vec<Vec<u8>> {
+    let mut matrix = input.clone();
+    for i in 0..matrix.len() {
+        for j in i + 1..matrix.len() {
+            let temp = matrix[j][i];
+            matrix[j][i] = matrix[i][j];
+            matrix[i][j] = temp;
         }
     }
-    reversed
+    for row in &mut matrix {
+        row.reverse();
+    }
+
+    matrix
 }
 
 // parse the input
