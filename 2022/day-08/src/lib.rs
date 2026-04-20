@@ -12,14 +12,14 @@ pub fn process_part1(input: &str) -> String {
     while rotation < 4 {
         let forest_copy = forest.clone();
         for (r, row) in forest_copy[1..brink].iter().enumerate() {
-            for (i, tree) in row[1..brink].iter().enumerate() {
-                let previous_highest = row[0..=i].iter().max().unwrap_or(&0);
+            for (c, tree) in row[1..brink].iter().enumerate() {
+                let previous_highest = row[0..=c].iter().max().unwrap_or(&0);
                 // 99 chosen arbitrary just to index seen trees
-                if seen_indexes[r + 1][i + 1] == 99 {
+                if seen_indexes[r + 1][c + 1] == 99 {
                     // println!("Already seen: {tree}");
                 } else if tree > previous_highest {
                     // println!("VISIBLE: {tree}");
-                    let (row_index, column_index) = (r + 1, i + 1);
+                    let (row_index, column_index) = (r + 1, c + 1);
                     seen_indexes[row_index][column_index] = 99;
                     result += 1;
                 } else {
@@ -37,9 +37,25 @@ pub fn process_part1(input: &str) -> String {
     result.to_string()
 }
 
-// pub fn process_part2(input: &str) -> String {
-// result.to_string()
-// }
+pub fn process_part2(input: &str) -> String {
+    let result: u32 = 0;
+    let forest = make_matrix(input);
+    let mut rotation: i32 = 0;
+    let brink = forest.len() - 1;
+
+    while rotation < 4 {
+        let forest_copy = forest.clone();
+        for (r, row) in forest_copy[1..brink].iter().enumerate() {
+            for (c, tree) in row[1..brink].iter().enumerate() {
+                // TODO:: scenic score logic
+                println!("tree: {tree}")
+            }
+        }
+        rotation += 1;
+    }
+
+    result.to_string()
+}
 
 pub fn make_matrix(input: &str) -> Vec<Vec<i8>> {
     let lines = read_lines(input);
@@ -98,10 +114,10 @@ mod tests {
         assert_eq!(result, "21");
     }
 
-    // #[test]
-    // fn part2_works() {
-    //     let input = "./sample.txt";
-    //     let result = process_part2(input);
-    //     assert_eq!(result, "");
-    // }
+    #[test]
+    fn part2_works() {
+        let input = "./sample.txt";
+        let result = process_part2(input);
+        assert_eq!(result, "8");
+    }
 }
