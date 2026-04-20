@@ -14,9 +14,8 @@ pub fn process_part1(input: &str) -> String {
         for (r, row) in forest_copy[1..brink].iter().enumerate() {
             for (c, tree) in row[1..brink].iter().enumerate() {
                 let previous_highest = row[0..=c].iter().max().unwrap_or(&0);
-                // 99 chosen arbitrary just to index seen trees
+                // 99 chosen arbitrarily just to index seen trees
                 if seen_indexes[r + 1][c + 1] == 99 {
-                    // println!("Already seen: {tree}");
                 } else if tree > previous_highest {
                     // println!("VISIBLE: {tree}");
                     let (row_index, column_index) = (r + 1, c + 1);
@@ -26,11 +25,9 @@ pub fn process_part1(input: &str) -> String {
                     // println!("INVISIBLE: {tree}");
                 }
             }
-            // println!(">>> NEXT LINE");
         }
         forest = rotate_matrix(forest);
         seen_indexes = rotate_matrix(seen_indexes);
-        // println!("FLIP!");
         rotation += 1;
     }
 
@@ -38,23 +35,61 @@ pub fn process_part1(input: &str) -> String {
 }
 
 pub fn process_part2(input: &str) -> String {
-    let result: u32 = 0;
     let forest = make_matrix(input);
-    let mut rotation: i32 = 0;
-    let brink = forest.len() - 1;
+    let mut scores: Vec<u32> = Vec::new();
 
-    while rotation < 4 {
-        let forest_copy = forest.clone();
-        for (r, row) in forest_copy[1..brink].iter().enumerate() {
-            for (c, tree) in row[1..brink].iter().enumerate() {
-                // TODO:: scenic score logic
-                println!("tree: {tree}")
-            }
+    for (r, row) in forest.iter().enumerate() {
+        for (c, _column) in row.iter().enumerate() {
+            let score: u32 = scenic_score(r, c, forest.clone());
+            scores.push(score);
         }
-        rotation += 1;
     }
 
+    let result = scores.iter().max().unwrap_or(&0);
     result.to_string()
+}
+
+pub fn scenic_score(row: usize, col: usize, vec: Vec<Vec<i8>>) -> u32 {
+    let mut r = row;
+    let mut c = col;
+    let mut score: u32 = 1;
+    let mut forest = vec;
+    let tree = forest[r][c];
+    let mut rot = 0;
+    let rotations = 4;
+    let mut seen_vec: Vec<u32> = Vec::new();
+
+    while rot < rotations {
+        let forest_copy = forest.clone();
+        let edge = forest_copy.len() - 1;
+        let mut seen = 0;
+        for n in c..edge {
+            let next = forest[r][n + 1];
+            if next < tree {
+                seen += 1;
+            } else {
+                seen += 1;
+                break;
+            }
+        }
+        // println!("From tree: {tree} I see: {seen} in iteration nr {rot}");
+        seen_vec.push(seen);
+
+        // rotate index
+        let temp = r;
+        r = c;
+        c = forest.len() - 1 - temp;
+
+        // rotate matrix
+        forest = rotate_matrix(forest);
+        rot += 1;
+    }
+
+    // mutliply scores
+    for i in seen_vec {
+        score *= i;
+    }
+    score
 }
 
 pub fn make_matrix(input: &str) -> Vec<Vec<i8>> {
@@ -119,5 +154,20 @@ mod tests {
         let input = "./sample.txt";
         let result = process_part2(input);
         assert_eq!(result, "8");
+    }
+
+    #[test]
+    fn scenic_score_works() {
+        let vector: Vec<Vec<i8>> = vec![
+            vec![3, 0, 3, 7, 3],
+            vec![2, 5, 5, 1, 2],
+            vec![6, 5, 3, 3, 2],
+            vec![3, 3, 5, 4, 9],
+            vec![3, 5, 3, 9, 0],
+        ];
+        let r: usize = 3;
+        let c: usize = 2;
+        let result = scenic_score(r, c, vector);
+        assert_eq!(result, 8);
     }
 }
