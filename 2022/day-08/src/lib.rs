@@ -3,30 +3,34 @@ use std::fs::read_to_string;
 pub fn process_part1(input: &str) -> String {
     let mut result: u32 = 0;
     let mut forest = make_matrix(input);
-    let forest_edge = (forest.len() * 4) - 4;
     let mut rotation = 0;
+    let forest_edge = (forest.len() * 4) - 4;
     let brink = forest.len() - 1;
     result += forest_edge as u32;
+    let mut seen_indexes = forest.clone();
 
-    while rotation < 3 {
+    while rotation < 4 {
         let forest_copy = forest.clone();
         for (r, row) in forest_copy[1..brink].iter().enumerate() {
             for (i, tree) in row[1..brink].iter().enumerate() {
                 let previous_highest = row[0..=i].iter().max().unwrap_or(&0);
-                if tree > previous_highest {
-                    println!("VISIBLE: {tree}");
-                    let row_index = r + 1;
-                    let column_index = i + 1;
-                    forest[row_index][column_index] = -1;
+                // 99 chosen arbitrary just to index seen trees
+                if seen_indexes[r + 1][i + 1] == 99 {
+                    // println!("Already seen: {tree}");
+                } else if tree > previous_highest {
+                    // println!("VISIBLE: {tree}");
+                    let (row_index, column_index) = (r + 1, i + 1);
+                    seen_indexes[row_index][column_index] = 99;
                     result += 1;
                 } else {
-                    println!("INVISIBLE: {tree}");
+                    // println!("INVISIBLE: {tree}");
                 }
             }
-            println!(">>> NEXT LINE");
+            // println!(">>> NEXT LINE");
         }
         forest = rotate_matrix(forest);
-        println!("FLIP!");
+        seen_indexes = rotate_matrix(seen_indexes);
+        // println!("FLIP!");
         rotation += 1;
     }
 
