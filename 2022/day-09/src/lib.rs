@@ -6,17 +6,30 @@ pub struct Cmd {
     pub dis: u8,
 }
 
+#[derive(Debug)]
+pub struct Line {
+    pub h_x: usize,
+    pub h_y: usize,
+    pub t_x: usize,
+    pub t_y: usize,
+}
+
 pub fn process_part1(input: &str) -> String {
     let result = 0;
-    // let mut height = 0;
-    // let mut width = 0;
     let raw_commands = read_lines(input);
-    let mut bridge: Vec<Vec<char>> = vec![vec!['O'; 15], vec!['O'; 15]];
-    let mut _positions_map = bridge.clone();
     let commands = parse_commands(raw_commands);
-    bridge[0][0] = 'H';
+    let mut line = Line {
+        h_x: 0,
+        h_y: 0,
+        t_x: 0,
+        t_y: 0,
+    };
 
-    println!("{commands:?}");
+    for command in commands {
+        let l = &mut line;
+        let position = move_rope(l, command);
+        println!("line is at: {position:?}");
+    }
 
     result.to_string()
 }
@@ -25,6 +38,21 @@ pub fn process_part1(input: &str) -> String {
 //     let result = 0;
 //     result.to_string()
 // }
+
+pub fn move_rope(line: &mut Line, command: Cmd) -> &Line {
+    let distance = command.dis;
+
+    for _step in 0..distance {
+        match command.dir {
+            'U' => line.h_y += 1,
+            'D' => line.h_y -= 1,
+            'R' => line.h_x += 1,
+            'L' => line.h_x -= 1,
+            _ => println!("This ain't a direction!"),
+        };
+    }
+    line
+}
 
 pub fn parse_commands(cmd: Vec<String>) -> Vec<Cmd> {
     let mut commands: Vec<Cmd> = Vec::new();
