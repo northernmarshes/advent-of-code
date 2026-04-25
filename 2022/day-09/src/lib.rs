@@ -14,8 +14,20 @@ pub struct Line {
     pub t_y: usize,
 }
 
+#[derive(Debug)]
+pub struct EndPoint {
+    pub x: f64,
+    pub y: f64,
+}
+
+impl EndPoint {
+    fn distance_to(&self, other: &EndPoint) -> f64 {
+        ((self.x - other.x).powi(2) + (self.y - other.y).powi(2)).sqrt()
+    }
+}
+
 pub fn process_part1(input: &str) -> String {
-    let result = 0;
+    let mut result = 0;
     let raw_commands = read_lines(input);
     let commands = parse_commands(raw_commands);
     let mut line = Line {
@@ -27,7 +39,8 @@ pub fn process_part1(input: &str) -> String {
 
     for command in commands {
         let l = &mut line;
-        let position = move_rope(l, command);
+        let (position, m) = move_rope(l, command);
+        result += m;
         println!("line is at: {position:?}");
     }
 
@@ -39,8 +52,9 @@ pub fn process_part1(input: &str) -> String {
 //     result.to_string()
 // }
 
-pub fn move_rope(line: &mut Line, command: Cmd) -> &Line {
+pub fn move_rope(line: &mut Line, command: Cmd) -> (&Line, u32) {
     let distance = command.dis;
+    let mut tail_moves = 0;
 
     for _step in 0..distance {
         match command.dir {
@@ -50,8 +64,39 @@ pub fn move_rope(line: &mut Line, command: Cmd) -> &Line {
             'L' => line.h_x -= 1,
             _ => println!("This ain't a direction!"),
         };
+
+        let head = EndPoint {
+            x: line.h_x as f64,
+            y: line.h_y as f64,
+        };
+
+        let tail = EndPoint {
+            x: line.t_x as f64,
+            y: line.t_y as f64,
+        };
+
+        let distance = head.distance_to(&tail);
+
+        if distance > 1.0 {
+            if command.dir == 'U' {
+                line.t_x = line.h_x;
+                line.t_y = line.h_y - 1;
+            } else if command.dir == 'D' {
+                line.t_x = line.h_x;
+                line.t_y = line.h_y + 1;
+            } else if command.dir == 'R' {
+                line.t_x = line.h_x - 1;
+                line.t_y = line.h_y;
+            } else {
+                line.t_x = line.h_x + 1;
+                line.t_y = line.h_y;
+            }
+
+            tail_moves += 1;
+            // println!("The distance is: {distance}");
+        }
     }
-    line
+    (line, tail_moves)
 }
 
 pub fn parse_commands(cmd: Vec<String>) -> Vec<Cmd> {
