@@ -1,4 +1,4 @@
-use std::fs::read_to_string;
+use std::{collections::HashSet, fs::read_to_string};
 
 #[derive(Debug)]
 pub struct Cmd {
@@ -8,10 +8,10 @@ pub struct Cmd {
 
 #[derive(Debug)]
 pub struct Line {
-    pub h_x: usize,
-    pub h_y: usize,
-    pub t_x: usize,
-    pub t_y: usize,
+    pub h_x: i64,
+    pub h_y: i64,
+    pub t_x: i64,
+    pub t_y: i64,
 }
 
 #[derive(Debug)]
@@ -27,7 +27,9 @@ impl EndPoint {
 }
 
 pub fn process_part1(input: &str) -> String {
-    let mut result = 0;
+    let mut positions: HashSet<(u32, u32)> = HashSet::new();
+    let start: (u32, u32) = (0, 0);
+    positions.insert(start);
     let raw_commands = read_lines(input);
     let commands = parse_commands(raw_commands);
     let mut line = Line {
@@ -37,13 +39,18 @@ pub fn process_part1(input: &str) -> String {
         t_y: 0,
     };
 
+    let mut l = &mut line;
     for command in commands {
-        let l = &mut line;
-        let (position, m) = move_rope(l, command);
-        result += m;
-        println!("line is at: {position:?}");
+        let (line_pos, tail_positions) = move_rope(l, command);
+        for pos in tail_positions {
+            positions.insert(pos);
+        }
+        l = line_pos;
+        // println!("line is at: {head_position:?}");
     }
 
+    // println!("{positions:?}");
+    let result = positions.len();
     result.to_string()
 }
 
@@ -52,9 +59,9 @@ pub fn process_part1(input: &str) -> String {
 //     result.to_string()
 // }
 
-pub fn move_rope(line: &mut Line, command: Cmd) -> (&Line, u32) {
+pub fn move_rope(line: &mut Line, command: Cmd) -> (&mut Line, HashSet<(u32, u32)>) {
     let distance = command.dis;
-    let mut tail_moves = 0;
+    let mut positions: HashSet<(u32, u32)> = HashSet::new();
 
     for _step in 0..distance {
         match command.dir {
@@ -75,9 +82,9 @@ pub fn move_rope(line: &mut Line, command: Cmd) -> (&Line, u32) {
             y: line.t_y as f64,
         };
 
-        let distance = head.distance_to(&tail);
+        let head_tail_distance = head.distance_to(&tail);
 
-        if distance > 1.0 {
+        if head_tail_distance >= 2.0 {
             if command.dir == 'U' {
                 line.t_x = line.h_x;
                 line.t_y = line.h_y - 1;
@@ -92,11 +99,13 @@ pub fn move_rope(line: &mut Line, command: Cmd) -> (&Line, u32) {
                 line.t_y = line.h_y;
             }
 
-            tail_moves += 1;
-            // println!("The distance is: {distance}");
+            let position = (line.t_x as u32, line.h_y as u32);
+            positions.insert(position);
+
+            // println!("The distance is: {head_tail_distance}. and the positions are {line:?}");
         }
     }
-    (line, tail_moves)
+    (line, positions)
 }
 
 pub fn parse_commands(cmd: Vec<String>) -> Vec<Cmd> {
