@@ -27,8 +27,8 @@ impl EndPoint {
 }
 
 pub fn process_part1(input: &str) -> String {
-    let mut positions: HashSet<(u32, u32)> = HashSet::new();
-    let start: (u32, u32) = (0, 0);
+    let mut positions: HashSet<(i64, i64)> = HashSet::new();
+    let start: (i64, i64) = (0, 0);
     positions.insert(start);
     let raw_commands = read_lines(input);
     let commands = parse_commands(raw_commands);
@@ -46,22 +46,20 @@ pub fn process_part1(input: &str) -> String {
             positions.insert(pos);
         }
         l = line_pos;
-        // println!("line is at: {head_position:?}");
     }
 
-    // println!("{positions:?}");
     let result = positions.len();
     result.to_string()
 }
 
-// pub fn process_part2(input: &str) -> String {
-//     let result = 0;
-//     result.to_string()
-// }
+pub fn process_part2(input: &str) -> String {
+    let result = 0;
+    result.to_string()
+}
 
-pub fn move_rope(line: &mut Line, command: Cmd) -> (&mut Line, HashSet<(u32, u32)>) {
+pub fn move_rope(line: &mut Line, command: Cmd) -> (&mut Line, HashSet<(i64, i64)>) {
     let distance = command.dis;
-    let mut positions: HashSet<(u32, u32)> = HashSet::new();
+    let mut positions: HashSet<(i64, i64)> = HashSet::new();
 
     for _step in 0..distance {
         match command.dir {
@@ -99,10 +97,8 @@ pub fn move_rope(line: &mut Line, command: Cmd) -> (&mut Line, HashSet<(u32, u32
                 line.t_y = line.h_y;
             }
 
-            let position = (line.t_x as u32, line.h_y as u32);
+            let position = (line.t_x, line.t_y);
             positions.insert(position);
-
-            // println!("The distance is: {head_tail_distance}. and the positions are {line:?}");
         }
     }
     (line, positions)
@@ -159,10 +155,26 @@ mod tests {
         assert_eq!(result, "13");
     }
 
-    // #[test]
-    // fn part2_works() {
-    //     let input = "./sample.txt";
-    //     let result = process_part2(input);
-    //     assert_eq!(result, "");
-    // }
+    #[test]
+    fn part2_works() {
+        let input = "./sample.txt";
+        let result = process_part2(input);
+        assert_eq!(result, "1");
+    }
+
+    // R 5
+    // U 8
+    // L 8
+    // D 3
+    // R 17
+    // D 10
+    // L 25
+    // U 20
+
+    #[test]
+    fn part2_works_large() {
+        let input = "./sample_large.txt";
+        let result = process_part2(input);
+        assert_eq!(result, "36");
+    }
 }
