@@ -7,11 +7,31 @@ pub struct Cmd {
 }
 
 #[derive(Debug)]
-pub struct Line {
+pub struct ShortLine {
     pub h_x: i64,
     pub h_y: i64,
     pub t_x: i64,
     pub t_y: i64,
+}
+
+#[derive(Debug)]
+pub struct LinePoint {
+    pub x: i64,
+    pub y: i64,
+}
+
+#[derive(Debug)]
+pub struct LongLine {
+    pub head: LinePoint,
+    pub p_9: LinePoint,
+    pub p_8: LinePoint,
+    pub p_7: LinePoint,
+    pub p_6: LinePoint,
+    pub p_5: LinePoint,
+    pub p_4: LinePoint,
+    pub p_3: LinePoint,
+    pub p_2: LinePoint,
+    pub tail: LinePoint,
 }
 
 #[derive(Debug)]
@@ -32,7 +52,7 @@ pub fn process_part1(input: &str) -> String {
     positions.insert(start);
     let raw_commands = read_lines(input);
     let commands = parse_commands(raw_commands);
-    let mut line = Line {
+    let mut line = ShortLine {
         h_x: 0,
         h_y: 0,
         t_x: 0,
@@ -54,10 +74,28 @@ pub fn process_part1(input: &str) -> String {
 
 pub fn process_part2(input: &str) -> String {
     let result = 0;
+    let mut positions: HashSet<(i64, i64)> = HashSet::new();
+    let start: (i64, i64) = (0, 0);
+    positions.insert(start);
+    let raw_commands = read_lines(input);
+    let _commands = parse_commands(raw_commands);
+    let mut line = LongLine {
+        head: LinePoint { x: 0, y: 0 },
+        p_9: LinePoint { x: 0, y: 0 },
+        p_8: LinePoint { x: 0, y: 0 },
+        p_7: LinePoint { x: 0, y: 0 },
+        p_6: LinePoint { x: 0, y: 0 },
+        p_5: LinePoint { x: 0, y: 0 },
+        p_4: LinePoint { x: 0, y: 0 },
+        p_3: LinePoint { x: 0, y: 0 },
+        p_2: LinePoint { x: 0, y: 0 },
+        tail: LinePoint { x: 0, y: 0 },
+    };
+
     result.to_string()
 }
 
-pub fn move_rope(line: &mut Line, command: Cmd) -> (&mut Line, HashSet<(i64, i64)>) {
+pub fn move_rope(line: &mut ShortLine, command: Cmd) -> (&mut ShortLine, HashSet<(i64, i64)>) {
     let distance = command.dis;
     let mut positions: HashSet<(i64, i64)> = HashSet::new();
 
@@ -101,6 +139,12 @@ pub fn move_rope(line: &mut Line, command: Cmd) -> (&mut Line, HashSet<(i64, i64
             positions.insert(position);
         }
     }
+    (line, positions)
+}
+
+pub fn move_long_rope(line: &mut LongLine, _command: Cmd) -> (&mut LongLine, HashSet<(i64, i64)>) {
+    let positions: HashSet<(i64, i64)> = HashSet::new();
+    // TODO: write long line logic
     (line, positions)
 }
 
