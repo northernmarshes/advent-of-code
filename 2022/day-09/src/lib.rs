@@ -20,7 +20,7 @@ pub struct LinePoint {
     pub y: i64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct LongLine {
     pub head: LinePoint,
     pub p_9: LinePoint,
@@ -116,8 +116,8 @@ pub fn process_part2(input: &str) -> String {
     let start: (i64, i64) = (0, 0);
     positions.insert(start);
     let raw_commands = read_lines(input);
-    let _commands = parse_commands(raw_commands);
-    let long_line = LongLine {
+    let commands = parse_commands(raw_commands);
+    let mut long_line = LongLine {
         head: LinePoint { x: 0, y: 0 },
         p_9: LinePoint { x: 0, y: 0 },
         p_8: LinePoint { x: 0, y: 0 },
@@ -130,8 +130,12 @@ pub fn process_part2(input: &str) -> String {
         tail: LinePoint { x: 0, y: 0 },
     };
 
-    for point in long_line {
-        println!("{point:?}");
+    for command in commands {
+        let (line, _positions) = move_long_rope(long_line, command);
+        long_line = line;
+        let head: (i64, i64) = (long_line.head.y, long_line.head.x);
+        println!("The rope's head is at: {head:?}");
+        println!("Current rope positions are: {long_line:?}");
     }
 
     result.to_string()
@@ -184,10 +188,7 @@ pub fn move_rope(line: &mut ShortLine, command: Cmd) -> (&mut ShortLine, HashSet
     (line, positions)
 }
 
-pub fn move_long_rope(
-    long_line: &mut LongLine,
-    command: Cmd,
-) -> (&mut LongLine, HashSet<(i64, i64)>) {
+pub fn move_long_rope(mut long_line: LongLine, command: Cmd) -> (LongLine, HashSet<(i64, i64)>) {
     let positions: HashSet<(i64, i64)> = HashSet::new();
     let distance = command.dis;
 
@@ -201,19 +202,38 @@ pub fn move_long_rope(
         };
     }
 
-    // for point in long_line {}
+    for point in long_line.into_iter() {
+        // TODO: access the next point here
+        let mut next_point = long_line.into_iter().next().expect("out of scope!");
+        println!("Current point is {point:?} and next point is{next_point:?}");
+        let first = EndPoint {
+            x: point.x as f64,
+            y: point.y as f64,
+        };
 
-    let head = EndPoint {
-        x: long_line.head.x as f64,
-        y: long_line.head.y as f64,
-    };
+        let next = EndPoint {
+            x: next_point.y as f64,
+            y: next_point.x as f64,
+        };
 
-    let tail = EndPoint {
-        x: long_line.tail.y as f64,
-        y: long_line.tail.x as f64,
-    };
+        let rope_points_distance = first.distance_to(&next);
 
-    let _head_tail_distance = head.distance_to(&tail);
+        if rope_points_distance >= 2.0 {
+            if command.dir == 'U' {
+                next_point.x = point.x;
+                next_point.y = point.y - 1;
+            } else if command.dir == 'D' {
+                next_point.x = point.x;
+                next_point.y = point.y + 1;
+            } else if command.dir == 'R' {
+                next_point.x = point.x - 1;
+                next_point.y = point.y;
+            } else {
+                next_point.x = point.x + 1;
+                next_point.y = point.y;
+            }
+        }
+    }
 
     (long_line, positions)
 }
