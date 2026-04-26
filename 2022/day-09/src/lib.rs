@@ -14,7 +14,7 @@ pub struct ShortLine {
     pub t_y: i64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct LinePoint {
     pub x: i64,
     pub y: i64,
@@ -32,6 +32,44 @@ pub struct LongLine {
     pub p_3: LinePoint,
     pub p_2: LinePoint,
     pub tail: LinePoint,
+}
+
+impl IntoIterator for LongLine {
+    type Item = LinePoint;
+    type IntoIter = LinePointIterator;
+
+    fn into_iter(self) -> Self::IntoIter {
+        LinePointIterator {
+            point: self,
+            index: 0,
+        }
+    }
+}
+
+impl Iterator for LinePointIterator {
+    type Item = LinePoint;
+    fn next(&mut self) -> Option<LinePoint> {
+        let result = match self.index {
+            0 => self.point.head,
+            1 => self.point.p_9,
+            2 => self.point.p_8,
+            3 => self.point.p_7,
+            4 => self.point.p_6,
+            5 => self.point.p_5,
+            6 => self.point.p_4,
+            7 => self.point.p_3,
+            8 => self.point.p_2,
+            9 => self.point.tail,
+            _ => return None,
+        };
+        self.index += 1;
+        Some(result)
+    }
+}
+
+pub struct LinePointIterator {
+    point: LongLine,
+    index: usize,
 }
 
 #[derive(Debug)]
@@ -79,7 +117,7 @@ pub fn process_part2(input: &str) -> String {
     positions.insert(start);
     let raw_commands = read_lines(input);
     let _commands = parse_commands(raw_commands);
-    let mut line = LongLine {
+    let long_line = LongLine {
         head: LinePoint { x: 0, y: 0 },
         p_9: LinePoint { x: 0, y: 0 },
         p_8: LinePoint { x: 0, y: 0 },
@@ -91,6 +129,10 @@ pub fn process_part2(input: &str) -> String {
         p_2: LinePoint { x: 0, y: 0 },
         tail: LinePoint { x: 0, y: 0 },
     };
+
+    for point in long_line {
+        println!("{point:?}");
+    }
 
     result.to_string()
 }
@@ -142,10 +184,38 @@ pub fn move_rope(line: &mut ShortLine, command: Cmd) -> (&mut ShortLine, HashSet
     (line, positions)
 }
 
-pub fn move_long_rope(line: &mut LongLine, _command: Cmd) -> (&mut LongLine, HashSet<(i64, i64)>) {
+pub fn move_long_rope(
+    long_line: &mut LongLine,
+    command: Cmd,
+) -> (&mut LongLine, HashSet<(i64, i64)>) {
     let positions: HashSet<(i64, i64)> = HashSet::new();
-    // TODO: write long line logic
-    (line, positions)
+    let distance = command.dis;
+
+    for _step in 0..distance {
+        match command.dir {
+            'U' => long_line.head.y += 1,
+            'D' => long_line.head.y -= 1,
+            'R' => long_line.head.x += 1,
+            'L' => long_line.head.x -= 1,
+            _ => println!("This ain't a direction!"),
+        };
+    }
+
+    // for point in long_line {}
+
+    let head = EndPoint {
+        x: long_line.head.x as f64,
+        y: long_line.head.y as f64,
+    };
+
+    let tail = EndPoint {
+        x: long_line.tail.y as f64,
+        y: long_line.tail.x as f64,
+    };
+
+    let _head_tail_distance = head.distance_to(&tail);
+
+    (long_line, positions)
 }
 
 pub fn parse_commands(cmd: Vec<String>) -> Vec<Cmd> {
