@@ -24,14 +24,14 @@ pub struct LinePoint {
 #[derive(Debug, Clone, Copy)]
 pub struct LongLine {
     pub head: LinePoint,
-    pub p_9: LinePoint,
-    pub p_8: LinePoint,
-    pub p_7: LinePoint,
-    pub p_6: LinePoint,
-    pub p_5: LinePoint,
-    pub p_4: LinePoint,
-    pub p_3: LinePoint,
+    pub p_1: LinePoint,
     pub p_2: LinePoint,
+    pub p_3: LinePoint,
+    pub p_4: LinePoint,
+    pub p_5: LinePoint,
+    pub p_6: LinePoint,
+    pub p_7: LinePoint,
+    pub p_8: LinePoint,
     pub tail: LinePoint,
 }
 
@@ -40,14 +40,14 @@ impl Index<&'_ usize> for LongLine {
     fn index(&self, s: &usize) -> &LinePoint {
         match s {
             0 => &self.head,
-            1 => &self.p_9,
-            2 => &self.p_8,
-            3 => &self.p_7,
-            4 => &self.p_6,
+            1 => &self.p_1,
+            2 => &self.p_2,
+            3 => &self.p_3,
+            4 => &self.p_4,
             5 => &self.p_5,
-            6 => &self.p_4,
-            7 => &self.p_3,
-            8 => &self.p_2,
+            6 => &self.p_6,
+            7 => &self.p_7,
+            8 => &self.p_8,
             9 => &self.tail,
             _ => panic!("unknown"),
         }
@@ -58,14 +58,14 @@ impl IndexMut<&'_ usize> for LongLine {
     fn index_mut(&mut self, s: &usize) -> &mut LinePoint {
         match s {
             0 => &mut self.head,
-            1 => &mut self.p_9,
-            2 => &mut self.p_8,
-            3 => &mut self.p_7,
-            4 => &mut self.p_6,
+            1 => &mut self.p_1,
+            2 => &mut self.p_2,
+            3 => &mut self.p_3,
+            4 => &mut self.p_4,
             5 => &mut self.p_5,
-            6 => &mut self.p_4,
-            7 => &mut self.p_3,
-            8 => &mut self.p_2,
+            6 => &mut self.p_6,
+            7 => &mut self.p_7,
+            8 => &mut self.p_8,
             9 => &mut self.tail,
             _ => panic!("unknown"),
         }
@@ -118,14 +118,14 @@ pub fn process_part2(input: &str) -> String {
     let commands = parse_commands(raw_commands);
     let mut long_line = LongLine {
         head: LinePoint { x: 0, y: 0 },
-        p_9: LinePoint { x: 0, y: 0 },
-        p_8: LinePoint { x: 0, y: 0 },
-        p_7: LinePoint { x: 0, y: 0 },
-        p_6: LinePoint { x: 0, y: 0 },
-        p_5: LinePoint { x: 0, y: 0 },
-        p_4: LinePoint { x: 0, y: 0 },
-        p_3: LinePoint { x: 0, y: 0 },
+        p_1: LinePoint { x: 0, y: 0 },
         p_2: LinePoint { x: 0, y: 0 },
+        p_3: LinePoint { x: 0, y: 0 },
+        p_4: LinePoint { x: 0, y: 0 },
+        p_5: LinePoint { x: 0, y: 0 },
+        p_6: LinePoint { x: 0, y: 0 },
+        p_7: LinePoint { x: 0, y: 0 },
+        p_8: LinePoint { x: 0, y: 0 },
         tail: LinePoint { x: 0, y: 0 },
     };
 
@@ -135,9 +135,6 @@ pub fn process_part2(input: &str) -> String {
             positions.insert(pos);
         }
         long_line = line;
-        let head: (i64, i64) = (long_line.head.y, long_line.head.x);
-        println!("The rope's head is at: {head:?}");
-        println!("Current rope positions are: {long_line:#?}");
     }
 
     let result = positions.len();
@@ -218,6 +215,7 @@ pub fn move_long_rope(mut long_line: LongLine, command: Cmd) -> (LongLine, HashS
 
             let rope_points_distance = first.distance_to(&next);
 
+            // TODO: adjust new mechanics for a longer rope
             if rope_points_distance >= 2.0 {
                 if command.dir == 'U' {
                     long_line[&next_index].x = long_line[&i].x;
@@ -236,6 +234,8 @@ pub fn move_long_rope(mut long_line: LongLine, command: Cmd) -> (LongLine, HashS
                 positions.insert(position);
             }
         }
+        println!("{long_line:#?}");
+        println!("next step!");
     }
 
     (long_line, positions)
