@@ -1,3 +1,4 @@
+use std::ops::{Index, IndexMut};
 use std::{collections::HashSet, fs::read_to_string};
 
 #[derive(Debug)]
@@ -72,6 +73,43 @@ pub struct LinePointIterator {
     index: usize,
 }
 
+impl Index<&'_ usize> for LongLine {
+    type Output = LinePoint;
+    fn index(&self, s: &usize) -> &LinePoint {
+        match s {
+            0 => &self.head,
+            1 => &self.p_9,
+            2 => &self.p_8,
+            3 => &self.p_7,
+            4 => &self.p_6,
+            5 => &self.p_5,
+            6 => &self.p_4,
+            7 => &self.p_3,
+            8 => &self.p_2,
+            9 => &self.tail,
+            _ => panic!("unknown"),
+        }
+    }
+}
+
+impl IndexMut<&'_ usize> for LongLine {
+    fn index_mut(&mut self, s: &usize) -> &mut LinePoint {
+        match s {
+            0 => &mut self.head,
+            1 => &mut self.p_9,
+            2 => &mut self.p_8,
+            3 => &mut self.p_7,
+            4 => &mut self.p_6,
+            5 => &mut self.p_5,
+            6 => &mut self.p_4,
+            7 => &mut self.p_3,
+            8 => &mut self.p_2,
+            9 => &mut self.tail,
+            _ => panic!("unknown"),
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct EndPoint {
     pub x: f64,
@@ -119,7 +157,7 @@ pub fn process_part2(input: &str) -> String {
     let commands = parse_commands(raw_commands);
     let mut long_line = LongLine {
         head: LinePoint { x: 0, y: 0 },
-        p_9: LinePoint { x: 666, y: 666 },
+        p_9: LinePoint { x: 0, y: 0 },
         p_8: LinePoint { x: 0, y: 0 },
         p_7: LinePoint { x: 0, y: 0 },
         p_6: LinePoint { x: 0, y: 0 },
@@ -129,6 +167,11 @@ pub fn process_part2(input: &str) -> String {
         p_2: LinePoint { x: 0, y: 0 },
         tail: LinePoint { x: 0, y: 0 },
     };
+
+    // testing struct indexing
+    let test = long_line[&3];
+    let test_var = test.x;
+    println!("its a test{test:?} and a var{test_var}");
 
     for command in commands {
         let (line, _positions) = move_long_rope(long_line, command);
