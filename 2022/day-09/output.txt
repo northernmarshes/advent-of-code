@@ -1,0 +1,1252 @@
+1
+0
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_1: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+2
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 2,
+        y: 0,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+2.23606797749979
+It's diagonal!
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 3,
+        y: 0,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3.1622776601683795
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 4,
+        y: 0,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 4,
+        y: 1,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3.1622776601683795
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 4,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3.605551275463989
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 4,
+        y: 3,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+4.242640687119285
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 4,
+        y: 4,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3.605551275463989
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 3,
+        y: 4,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3.1622776601683795
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 2,
+        y: 4,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3
+1
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 0,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+2
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 1,
+        y: 3,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+2.23606797749979
+It's diagonal!
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 2,
+        y: 3,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+2.8284271247461903
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 3,
+        y: 3,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3.605551275463989
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 4,
+        y: 3,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+4.47213595499958
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 5,
+        y: 3,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+4.123105625617661
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 5,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+3.1622776601683795
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 4,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+2.23606797749979
+It's diagonal!
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 3,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+1.4142135623730951
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 2,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+1
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 1,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+1.4142135623730951
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 0,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+1
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 1,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+1.4142135623730951
+4.123105625617661
+0
+0
+0
+0
+0
+0
+0
+LongLine {
+    head: LinePoint {
+        x: 2,
+        y: 2,
+    },
+    p_1: LinePoint {
+        x: 1,
+        y: 4,
+    },
+    p_2: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_3: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_4: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_5: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_6: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_7: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    p_8: LinePoint {
+        x: 0,
+        y: 0,
+    },
+    tail: LinePoint {
+        x: 0,
+        y: 0,
+    },
+}
+next step!
+1

@@ -165,6 +165,7 @@ pub fn move_rope(line: &mut ShortLine, command: Cmd) -> (&mut ShortLine, HashSet
         };
 
         let head_tail_distance = head.distance_to(&tail);
+        println!("distance: {head_tail_distance}");
 
         if head_tail_distance >= 2.0 {
             if command.dir == 'U' {
@@ -202,6 +203,7 @@ pub fn move_long_rope(mut long_line: LongLine, command: Cmd) -> (LongLine, HashS
         };
 
         for i in 0..9 {
+            // let last_direction = ''
             let next_index: usize = &i + 1;
             let first = EndPoint {
                 x: long_line[&i].x as f64,
@@ -210,13 +212,14 @@ pub fn move_long_rope(mut long_line: LongLine, command: Cmd) -> (LongLine, HashS
 
             let next = EndPoint {
                 x: long_line[&next_index].x as f64,
-                y: long_line[&next_index].x as f64,
+                y: long_line[&next_index].y as f64,
             };
 
             let rope_points_distance = first.distance_to(&next);
+            println!("{rope_points_distance}");
 
             // TODO: adjust new mechanics for a longer rope
-            if rope_points_distance >= 2.0 {
+            if rope_points_distance == 2.0 {
                 if command.dir == 'U' {
                     long_line[&next_index].x = long_line[&i].x;
                     long_line[&next_index].y = long_line[&i].y - 1;
@@ -233,8 +236,13 @@ pub fn move_long_rope(mut long_line: LongLine, command: Cmd) -> (LongLine, HashS
                 let position = (long_line[&9].x, long_line[&9].y);
                 positions.insert(position);
             }
+            // TODO: handle direction change
+            // diagonals
+            if rope_points_distance == 2.23606797749979 {
+                println!("It's diagonal! in {next_index}")
+            };
         }
-        println!("{long_line:#?}");
+        println!("{long_line:?}");
         println!("next step!");
     }
 
