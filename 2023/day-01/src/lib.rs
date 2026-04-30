@@ -29,12 +29,44 @@ pub fn process_part2(input: &str) -> String {
     let mut numbers: Vec<Vec<u32>> = Vec::new();
     let lines = read_lines(input);
     let re = Regex::new(r"\d|(?:one|two|three|four|five|six|seven|eight|nine)").unwrap();
+    let re_back = Regex::new(r"\d|(?:eno|owt|eerht|rouf|evif|xis|neves|thgie|enin)").unwrap();
 
     for line in lines {
         let mut line_nums: Vec<u32> = Vec::new();
+        let mut line_nums_back: Vec<String> = Vec::new();
         let l = line.as_str();
-        // let n: Vec<&str> = re.find_iter(l).map(|m| m.as_str()).collect();
-        let n: Vec<&str> = re.find_iter(l).map(|m| m.as_str()).collect();
+        let mut n: Vec<&str> = re.find_iter(l).map(|m| m.as_str()).collect();
+
+        // walkaroud for finding overlapping matches since
+        // rust regex crate donesn't support them and regexset
+        // is not suitable in this case since repeated numbers matter
+
+        let l_back = line.chars().rev().collect::<String>();
+        let n_back: Vec<&str> = re_back.find_iter(&l_back).map(|m| m.as_str()).collect();
+        for num in &n_back {
+            let p = num.chars().rev().collect::<String>();
+            line_nums_back.push(p);
+        }
+        line_nums_back.reverse();
+        // println!("{line_nums_back:?}");
+
+        if n[n.len() - 1] != line_nums_back[line_nums_back.len() - 1] {
+            let old = n[n.len() - 1];
+            let new = line_nums_back[line_nums_back.len() - 1].clone();
+            // println!("thats z {old}");
+            let old_letters: Vec<char> = old.chars().collect();
+            let new_letters: Vec<char> = new.chars().collect();
+            if !old_letters[0].is_numeric() && !new_letters[0].is_numeric() {
+                let candidate = n[n.len() - 1];
+                let changer = line_nums_back[line_nums_back.len() - 1].clone();
+                println!("zmieniam {candidate} na {changer}");
+                println!("{n:?} -> {n_back:?}");
+                n.pop();
+                n.push(line_nums_back[line_nums_back.len() - 1].as_str())
+            }
+        }
+        // println!("{n_back:?}");
+
         // println!("{n:?}");
         for num in n {
             let letters: Vec<char> = num.chars().collect();
