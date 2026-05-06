@@ -1,15 +1,60 @@
+use regex::Regex;
 use std::fs::read_to_string;
 
+#[derive(Debug)]
 pub struct Game {
-    number: u32,
-    blue: u32,
-    green: u32,
-    red: u32,
+    pub number: u32,
+    pub blue: u32,
+    pub green: u32,
+    pub red: u32,
 }
 
 pub fn process_part1(input: &str) -> String {
     let result = 0;
+    let games = read_lines(input);
+    let _searched_game = Game {
+        number: 0,
+        blue: 6,
+        green: 2,
+        red: 1,
+    };
+
+    for game in games {
+        let game = parse_game(&game);
+        println!("{game:?}");
+    }
     result.to_string()
+}
+
+pub fn parse_game(hay: &String) -> Game {
+    let mut game = Game {
+        number: 0,
+        blue: 0,
+        green: 0,
+        red: 0,
+    };
+    // let mut b = 0;
+    // let mut g = 0;
+    // let mut r = 0;
+
+    let hay = hay.as_str();
+    let re_index = Regex::new(r"Game (\d+)").unwrap();
+    let n = re_index.find(hay).unwrap().as_str();
+    let n = n.chars().last().unwrap() as u32 - 48;
+    game.number = n;
+    // println!("{n}");
+    //
+    let parts = hay.split(";");
+    for part in parts {
+        let re_blue = Regex::new(r"blue (\d+)").unwrap();
+        let b_str = re_blue.find(part).unwrap().as_str();
+        let b = b_str.chars().last().unwrap() as u32 - 48;
+        if game.blue < b {
+            game.blue = b;
+        }
+    }
+
+    game
 }
 
 // pub fn process_part2(input: &str) -> String {
