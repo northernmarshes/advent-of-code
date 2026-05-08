@@ -1,3 +1,3 @@
-with no llm assistance&nbsp;
-with pure joy of coding&nbsp;
+with no llm assistance\
+with pure joy of coding\
 with the elves i go
