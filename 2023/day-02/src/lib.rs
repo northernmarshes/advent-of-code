@@ -21,34 +21,36 @@ pub fn process_part1(input: &str) -> String {
 
     for game in games {
         let game = parse_game(&game);
-        println!("{game:?}");
+        println!("The game is {game:?}");
     }
     result.to_string()
 }
 
-pub fn parse_game(hay: &String) -> Game {
+pub fn parse_game(hay: &str) -> Game {
     let mut game = Game {
         number: 0,
         blue: 0,
         green: 0,
         red: 0,
     };
-    // let mut b = 0;
-    // let mut g = 0;
-    // let mut r = 0;
 
-    let hay = hay.as_str();
+    // regexes
+
+    let re_blue = Regex::new(r"(\d+) blue").unwrap();
+    let re_green = Regex::new(r"(\d+) green").unwrap();
+    let re_red = Regex::new(r"(\d+) red").unwrap();
+    let re_default = Regex::new(r"(\d+)").unwrap();
     let re_index = Regex::new(r"Game (\d+)").unwrap();
+
     let n = re_index.find(hay).unwrap().as_str();
     let n = n.chars().last().unwrap() as u32 - 48;
     game.number = n;
-    // println!("{n}");
-    //
+
     let parts = hay.split(";");
     for part in parts {
-        println!("{part}");
-        let re_blue = Regex::new(r"(\d+) blue").unwrap();
-        let b_str = re_blue.captures(part).unwrap();
+        let b_str = re_blue
+            .captures(part)
+            .unwrap_or(re_default.captures("0").unwrap());
         let b_str = b_str.get(0).unwrap().as_str();
         let b = b_str
             .to_string()
@@ -58,8 +60,10 @@ pub fn parse_game(hay: &String) -> Game {
             .parse::<u32>()
             .unwrap_or(0);
 
-        let re_green = Regex::new(r"(\d+) green").unwrap();
-        let g_str = re_green.find(part).unwrap().as_str();
+        let g_str = re_green
+            .captures(part)
+            .unwrap_or(re_default.captures("0").unwrap());
+        let g_str = g_str.get(0).unwrap().as_str();
         let g = g_str
             .to_string()
             .split_whitespace()
@@ -68,8 +72,10 @@ pub fn parse_game(hay: &String) -> Game {
             .parse::<u32>()
             .unwrap_or(0);
 
-        let re_red = Regex::new(r"(\d+) red").unwrap();
-        let r_str = re_red.find(part).unwrap().as_str();
+        let r_str = re_red
+            .captures(part)
+            .unwrap_or(re_default.captures("0").unwrap());
+        let r_str = r_str.get(0).unwrap().as_str();
         let r = r_str
             .to_string()
             .split_whitespace()
@@ -89,9 +95,6 @@ pub fn parse_game(hay: &String) -> Game {
         if game.red < r {
             game.red = r;
         }
-
-        // println!("Green = {g}");
-        // println!("Blue = {b}");
     }
 
     game
