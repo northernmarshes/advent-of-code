@@ -3,24 +3,29 @@ use std::fs::read_to_string;
 
 #[derive(Debug)]
 pub struct Game {
-    pub number: u32,
-    pub blue: u32,
-    pub green: u32,
-    pub red: u32,
+    pub n: u32,
+    pub r: u32,
+    pub g: u32,
+    pub b: u32,
 }
 
 pub fn process_part1(input: &str) -> String {
-    let result = 0;
+    let mut result = 0;
     let games = read_lines(input);
-    let _searched_game = Game {
-        number: 0,
-        blue: 6,
-        green: 2,
-        red: 1,
+    let searched = Game {
+        n: 0,
+        r: 12,
+        g: 13,
+        b: 14,
     };
 
     for game in games {
         let game = parse_game(&game);
+        if game.r < searched.r && game.g < searched.g && game.b < searched.b {
+            let ind = game.n;
+            result += ind;
+            // println!("{ind}");
+        }
         println!("The game is {game:?}");
     }
     result.to_string()
@@ -28,10 +33,10 @@ pub fn process_part1(input: &str) -> String {
 
 pub fn parse_game(hay: &str) -> Game {
     let mut game = Game {
-        number: 0,
-        blue: 0,
-        green: 0,
-        red: 0,
+        n: 0,
+        b: 0,
+        g: 0,
+        r: 0,
     };
 
     let re_i = Regex::new(r"Game (\d+)").unwrap();
@@ -41,32 +46,33 @@ pub fn parse_game(hay: &str) -> Game {
     let re_d = Regex::new(r"(\d+)").unwrap();
 
     let n = re_i.find(hay).unwrap().as_str();
-    let n = n.chars().last().unwrap() as u32 - 48;
-    game.number = n;
+    let n = n.split_whitespace().last().unwrap();
+    let n = n.parse::<u32>().unwrap_or(0);
+    game.n = n;
 
     let parts = hay.split(";");
     for part in parts {
-        let r = pass_num(&re_r, &re_d, part);
-        let g = pass_num(&re_g, &re_d, part);
-        let b = pass_num(&re_b, &re_d, part);
+        let r = count_cubes(&re_r, &re_d, part);
+        let g = count_cubes(&re_g, &re_d, part);
+        let b = count_cubes(&re_b, &re_d, part);
 
-        if game.red < r {
-            game.red = r;
+        if game.r < r {
+            game.r = r;
         }
-        if game.green < g {
-            game.green = g;
+        if game.g < g {
+            game.g = g;
         }
-        if game.blue < b {
-            game.blue = b;
+        if game.b < b {
+            game.b = b;
         }
     }
     game
 }
 
-fn pass_num(r: &Regex, rd: &Regex, h: &str) -> u32 {
-    let dice = r.captures(h).unwrap_or(rd.captures("0").unwrap());
-    let dice = dice.get(0).unwrap().as_str();
-    let d: u32 = dice
+fn count_cubes(r: &Regex, rd: &Regex, h: &str) -> u32 {
+    let cubes = r.captures(h).unwrap_or(rd.captures("0").unwrap());
+    let cubes = cubes.get(0).unwrap().as_str();
+    let d: u32 = cubes
         .to_string()
         .split_whitespace()
         .next()
@@ -102,7 +108,7 @@ mod tests {
     fn part1_works() {
         let input = "./sample.txt";
         let result = process_part1(input);
-        assert_eq!(result, "21");
+        assert_eq!(result, "8");
     }
 
     // #[test]
