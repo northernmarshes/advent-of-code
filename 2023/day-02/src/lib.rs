@@ -29,6 +29,17 @@ pub fn process_part1(input: &str) -> String {
     result.to_string()
 }
 
+pub fn process_part2(input: &str) -> String {
+    let mut result = 0;
+    let games = read_lines(input);
+    for game in games {
+        let game = parse_game(&game);
+        let power = game.r * game.g * game.b;
+        result += power;
+    }
+    result.to_string()
+}
+
 pub fn parse_game(hay: &str) -> Game {
     let mut game = Game {
         n: 0,
@@ -80,10 +91,6 @@ fn count_cubes(r: &Regex, rd: &Regex, h: &str) -> u32 {
     d
 }
 
-// pub fn process_part2(input: &str) -> String {
-//     result.to_string()
-// }
-
 pub fn read_lines(name: &str) -> Vec<String> {
     read_to_string(name)
         .unwrap()
@@ -109,10 +116,10 @@ mod tests {
         assert_eq!(result, "8");
     }
 
-    // #[test]
-    // fn part2_works() {
-    //     let input = "./sample.txt";
-    //     let result = process_part2(input);
-    //     assert_eq!(result, "");
-    // }
+    #[test]
+    fn part2_works() {
+        let input = "./sample.txt";
+        let result = process_part2(input);
+        assert_eq!(result, "2286");
+    }
 }
