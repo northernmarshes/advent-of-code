@@ -34,77 +34,52 @@ pub fn parse_game(hay: &str) -> Game {
         red: 0,
     };
 
-    // regexes
+    let re_i = Regex::new(r"Game (\d+)").unwrap();
+    let re_r = Regex::new(r"(\d+) red").unwrap();
+    let re_g = Regex::new(r"(\d+) green").unwrap();
+    let re_b = Regex::new(r"(\d+) blue").unwrap();
+    let re_d = Regex::new(r"(\d+)").unwrap();
 
-    let re_blue = Regex::new(r"(\d+) blue").unwrap();
-    let re_green = Regex::new(r"(\d+) green").unwrap();
-    let re_red = Regex::new(r"(\d+) red").unwrap();
-    let re_default = Regex::new(r"(\d+)").unwrap();
-    let re_index = Regex::new(r"Game (\d+)").unwrap();
-
-    let n = re_index.find(hay).unwrap().as_str();
+    let n = re_i.find(hay).unwrap().as_str();
     let n = n.chars().last().unwrap() as u32 - 48;
     game.number = n;
 
     let parts = hay.split(";");
     for part in parts {
-        let b_str = re_blue
-            .captures(part)
-            .unwrap_or(re_default.captures("0").unwrap());
-        let b_str = b_str.get(0).unwrap().as_str();
-        let b = b_str
-            .to_string()
-            .split_whitespace()
-            .next()
-            .unwrap_or("0")
-            .parse::<u32>()
-            .unwrap_or(0);
-
-        let g_str = re_green
-            .captures(part)
-            .unwrap_or(re_default.captures("0").unwrap());
-        let g_str = g_str.get(0).unwrap().as_str();
-        let g = g_str
-            .to_string()
-            .split_whitespace()
-            .next()
-            .unwrap_or("0")
-            .parse::<u32>()
-            .unwrap_or(0);
-
-        let r_str = re_red
-            .captures(part)
-            .unwrap_or(re_default.captures("0").unwrap());
-        let r_str = r_str.get(0).unwrap().as_str();
-        let r = r_str
-            .to_string()
-            .split_whitespace()
-            .next()
-            .unwrap_or("0")
-            .parse::<u32>()
-            .unwrap_or(0);
-
-        if game.blue < b {
-            game.blue = b;
-        }
-
-        if game.green < g {
-            game.green = g;
-        }
+        let r = pass_num(&re_r, &re_d, part);
+        let g = pass_num(&re_g, &re_d, part);
+        let b = pass_num(&re_b, &re_d, part);
 
         if game.red < r {
             game.red = r;
         }
+        if game.green < g {
+            game.green = g;
+        }
+        if game.blue < b {
+            game.blue = b;
+        }
     }
-
     game
+}
+
+fn pass_num(r: &Regex, rd: &Regex, h: &str) -> u32 {
+    let dice = r.captures(h).unwrap_or(rd.captures("0").unwrap());
+    let dice = dice.get(0).unwrap().as_str();
+    let d: u32 = dice
+        .to_string()
+        .split_whitespace()
+        .next()
+        .unwrap_or("0")
+        .parse::<u32>()
+        .unwrap_or(0);
+    d
 }
 
 // pub fn process_part2(input: &str) -> String {
 //     result.to_string()
 // }
 
-// parse the input
 pub fn read_lines(name: &str) -> Vec<String> {
     read_to_string(name)
         .unwrap()
