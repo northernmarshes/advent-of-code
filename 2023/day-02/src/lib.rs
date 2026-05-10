@@ -21,12 +21,10 @@ pub fn process_part1(input: &str) -> String {
 
     for game in games {
         let game = parse_game(&game);
-        if game.r < searched.r && game.g < searched.g && game.b < searched.b {
-            let ind = game.n;
-            result += ind;
-            // println!("{ind}");
+        if game.r <= searched.r && game.g <= searched.g && game.b <= searched.b {
+            let i = game.n;
+            result += i;
         }
-        println!("The game is {game:?}");
     }
     result.to_string()
 }
