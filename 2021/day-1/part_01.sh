@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # mapfile -t ARR <sample.txt
 mapfile -t ARR <input.txt
