@@ -1,30 +1,21 @@
 #!/usr/bin/env bash
 
-# mapfile -t ARR1 <sample.txt
-mapfile -t ARR1 <input.txt
+# mapfile -t arr1 <sample.txt
+mapfile -t arr1 <input.txt
 
-ARR=()
-INDEX1=1
-INDEX2=2
+arr=()
+increased=0
+len=$((${#arr1[@]} - 2))
 
-for ((i = 0; i < ${#ARR1[@]}; i++)); do
-  CURRENT="${ARR1["$i"]}"
-  NEXT1="${ARR1["$i" + 1]}"
-  NEXT2="${ARR1["$i" + 2]}"
-  #TODO: Some arithmetic syntax error here to review later
-  WINDOW="$(($CURRENT + $NEXT1 + $NEXT2))"
-  ARR+=($WINDOW)
+for ((i = 0; i < $len; i++)); do
+  window=$(expr ${arr1["$i"]} + ${arr1["$i" + 1]} + ${arr1["$i" + 2]})
+  arr+=($window)
 done
 
-INDEX=-1
-INCREASED=0
-
-for LINE in "${ARR[@]}"; do
-  PREVIOUS="${ARR["$INDEX"]}"
-  if [ $LINE -gt $PREVIOUS ]; then
-    INCREASED="$(($INCREASED + 1))"
+for ((i = 1; i < ${#arr[@]}; i++)); do
+  if [ ${arr["$i"]} -gt ${arr["$i" - 1]} ]; then
+    let increased++
   fi
-  INDEX="$(($INDEX + 1))"
 done
 
-echo "Increased $INCREASED times."
+echo "Increased $increased times."

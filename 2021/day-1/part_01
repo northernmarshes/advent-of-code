@@ -1,21 +1,16 @@
 #!/usr/bin/env bash
 
-# mapfile -t ARR <sample.txt
-mapfile -t ARR <input.txt
-INDEX=-1
-INCREASED=0
+# mapfile -t arr <sample.txt
+mapfile -t arr <input.txt
+index=-1
+increased=0
 
-for LINE in "${ARR[@]}"; do
-  PREVIOUS="${ARR["$INDEX"]}"
-  echo "Previous: $PREVIOUS"
-  echo "Current: $LINE"
-  if [ $LINE -gt $PREVIOUS ]; then
-    echo "Increased"
-    INCREASED="$(($INCREASED + 1))"
-  else
-    echo "Decreased"
+for line in "${arr[@]}"; do
+  previous="${arr["$index"]}"
+  if [ $line -gt $previous ]; then
+    increased="$(($increased + 1))"
   fi
-  INDEX="$(($INDEX + 1))"
+  index="$(($index + 1))"
 done
 
-echo "Increased $INCREASED times."
+echo "Increased $increased times."
