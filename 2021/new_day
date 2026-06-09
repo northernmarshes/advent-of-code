@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-day="$1"
-
 mkdir day-$1
 cd day-$1
 touch part_01 part_02 sample.txt input.txt

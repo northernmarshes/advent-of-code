@@ -1,1 +1,16 @@
 #!/usr/bin/env bash
+
+mapfile -t list <sample.txt
+# mapfile -t arr <input.txt
+
+horizontal=0
+depth=0
+
+for command in "${list[@]}"; do
+  case $command in
+  forward*) echo moving forward ;;
+  down*) echo going down ;;
+  up*) echo going up ;;
+  *) echo sth weird ;;
+  esac
+done
