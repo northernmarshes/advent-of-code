@@ -1,1 +1,25 @@
 #!/usr/bin/env bash
+
+# mapfile -t list <sample.txt
+mapfile -t list <input.txt
+
+horizontal=0
+depth=0
+aim=0
+
+for command in "${list[@]}"; do
+  num=$(echo $command | tr -dc '0-9')
+  case $command in
+  forward*)
+    horizontal=$(($horizontal + $num))
+    depth=$(($depth + $(($aim * $num))))
+    ;;
+  down*) aim=$(($aim + $num)) ;;
+  up*) aim=$(($aim - $num)) ;;
+  *) echo sth weird ;;
+  esac
+done
+
+res=$(($horizontal * $depth))
+
+echo "You get $res if you multiply the final horizontal position by the final depth."
