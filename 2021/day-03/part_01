@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+mapfile -t list <sample.txt
+# mapfile -t list <input.txt
+
+gamma=()
+eplison=0
+
+len=$((${#list[@]}))
+
+for ((i = 0; i < $len; i++)); do
+  echo ${list[i]}
+done
+
+calculate_gamme() {
+  return gamma
+}
