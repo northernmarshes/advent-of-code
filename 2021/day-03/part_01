@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-mapfile -t list <sample.txt
-# mapfile -t list <input.txt
+# mapfile -t list <sample.txt
+mapfile -t list <input.txt
 
 gamma=()
 epsilon=()
@@ -14,14 +14,12 @@ y_len=$((${#list[0]}))
 for ((i=0; i< $y_len; i++)); do
   line=()
   for ((j = 0; j < $x_len; j++)); do
-    # echo counting ${list[j]:0:i}
     line+=${list[j]:i:1}
   done
 
   ones=()
   ones=$(echo $line | grep -o '1' | wc -l)
 
-  echo line is $line and ones is $ones
   if [ $ones -gt $x_half ]; then
     gamma+=1
     epsilon+=0
@@ -31,28 +29,12 @@ for ((i=0; i< $y_len; i++)); do
   fi
 done
 
-echo gamma "${gamma[@]}"
-echo eplison "${epsilon[@]}"
+gamma=$(echo "${gamma[*]}")
+epsilon=$(echo "${epsilon[*]}")
 
-i=0
-n=0
+gamma=$(echo "$((2#$gamma))")
+epsilon=$(echo "$((2#$epsilon))")
 
-n=$(echo "${gamma[*]}")
-echo gamma string is: $n
+power=$((gamma * epsilon))
 
-
-# Convert binary to decimal
-while [ $n -ne 0 ]; do
-  digit=$((n % 10))
-  num=$((num + digit * 2**i))
-  n=$((n / 10))
-  let "i++"
-done
-
-
-# Print the result
-echo "Resultant Decimal Number: $num"
-
-calc_decimal() {
-  return gamma
-}
+echo Power consumption of the submarine is $power.
