@@ -1,1 +1,30 @@
 #!/usr/bin/env bash
+
+mapfile -t list <sample.txt
+# mapfile -t list <input.txt
+
+oxygen=0
+co2=0
+life_support=0
+
+x_len=$((${#list[@]}))
+x_half=$((x_len / 2))
+y_len=$((${#list[0]}))
+
+for ((i = 0; i < $y_len; i++)); do
+  line=()
+  for ((j = 0; j < $x_len; j++)); do
+    line+=${list[j]:i:1}
+  done
+
+  ones=()
+  ones=$(echo $line | grep -o '1' | wc -l)
+
+  if [ $ones -gt $x_half ]; then
+    echo deleting lines stariting with zero
+  else
+    echo deleting lines stariting with one
+  fi
+done
+
+echo $life_support is the life support rating of the submarine.
