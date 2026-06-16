@@ -5,11 +5,31 @@ mapfile -t list <sample.txt
 
 oxygen=0
 co2=0
-life_support=0
 
 x_len=$((${#list[@]}))
 x_half=$((x_len / 2))
 y_len=$((${#list[0]}))
+
+################## sorting out
+sort_out() {
+  array_in=$1
+  prefix=$2
+  array_out=()
+  len=$((${#array_in[@]}))
+  for line in ${array_in[@]}; do
+    if [[ "$line" != "$prefix"* ]]; then
+      array_out+=(${line:1})
+    fi
+  done
+  echo "${array_out[@]}"
+}
+
+prefix="0"
+sort_out "${list[*]}" "$prefix"
+list2=$(sort_out "${list[*]}" "$prefix")
+echo after func "${list2[@]}"
+
+################## sorting_out
 
 for ((i = 0; i < $y_len; i++)); do
   line=()
@@ -19,12 +39,15 @@ for ((i = 0; i < $y_len; i++)); do
 
   ones=()
   ones=$(echo $line | grep -o '1' | wc -l)
-
   if [ $ones -gt $x_half ]; then
-    echo deleting lines stariting with zero
+    echo delete lines starting with zeros
   else
-    echo deleting lines stariting with one
+    echo delete lines starting with ones
   fi
 done
+
+echo list after everything "${list[@]}"
+
+# life_support= ((oxygen * co2))
 
 echo $life_support is the life support rating of the submarine.
