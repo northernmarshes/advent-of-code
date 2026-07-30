@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+cargo new day-$1
+cd day-$1
+touch input.txt
+touch sample.txt
+cd src
+
+# create library
+touch lib.rs
+cat <<EOT >>lib.rs
+use std::fs::read_to_string;
+
+pub fn process_part1(input: &str) -> String {
+  let result = 0;
+  result.to_string()
+}
+
+pub fn process_part2(input: &str) -> String {
+  let result = 0;
+  result.to_string()
+}
+
+pub fn read_lines(name: &str) -> Vec<String> {
+    read_to_string(name)
+        .unwrap()
+        .lines()
+        .map(String::from)
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn part1_works() {
+        let input = "./sample.txt";
+        let result = process_part1(input);
+        assert_eq!(result, "0");
+    }
+
+    #[test]
+    fn part2_works() {
+        let input = "./sample.txt";
+        let result = process_part2(input);
+        assert_eq!(result, "0");
+    }
+}
+EOT
+
+# create binaries
+mkdir bin
+cd bin
+mv ../main.rs part-1.rs
+>part-1.rs
+touch part-2.rs
+cat <<EOT >>part-1.rs
+use day_$1::process_part1;
+
+fn main() {
+    let file = "./input.txt";
+    // let file = "./sample.txt";
+    let result = process_part1(file);
+    println!("{}", result);
+}
+EOT
+
+cat <<EOT >>part-2.rs
+use day_$1::process_part2;
+
+fn main() {
+    let file = "./input.txt";
+    // let file = "./sample.txt";
+    let result = process_part2(file);
+    println!("{}", result);
+}
+EOT
