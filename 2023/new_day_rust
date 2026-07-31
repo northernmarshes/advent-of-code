@@ -59,8 +59,8 @@ cat <<EOT >>part-1.rs
 use day_$1::process_part1;
 
 fn main() {
-    let file = "./input.txt";
-    // let file = "./sample.txt";
+    // let file = "./input.txt";
+    let file = "./sample.txt";
     let result = process_part1(file);
     println!("{}", result);
 }
@@ -70,8 +70,8 @@ cat <<EOT >>part-2.rs
 use day_$1::process_part2;
 
 fn main() {
-    let file = "./input.txt";
-    // let file = "./sample.txt";
+    // let file = "./input.txt";
+    let file = "./sample.txt";
     let result = process_part2(file);
     println!("{}", result);
 }
