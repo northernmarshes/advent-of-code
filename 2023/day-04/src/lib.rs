@@ -6,7 +6,7 @@ pub struct Card {
 }
 
 pub fn process_part1(input: &str) -> String {
-    let result = 0;
+    let mut result = 0;
     let lines: Vec<String> = read_lines(input);
     let mut deck: Vec<Card> = Vec::new();
     for line in lines {
@@ -14,7 +14,10 @@ pub fn process_part1(input: &str) -> String {
         deck.push(card);
     }
     for card in deck {
-        println!("winning: {:?}, given: {:?}", card.winning, card.given);
+        let points = count_points(&card);
+        result += points;
+        println!("Punkty to {:?}", points);
+        // println!("winning: {:?}, given: {:?}", card.winning, card.given);
     }
     result.to_string()
 }
@@ -32,12 +35,12 @@ pub fn prepare_cards(card: &str) -> Card {
     let mut g_numeric: Vec<u32> = Vec::new();
 
     for n in w.trim().split(" ") {
-        println!("linia {}", n);
+        // println!("linia {}", n);
         let num: u32 = n.parse().unwrap_or_default();
         w_numeric.push(num);
     }
     for n in g.trim().split(" ") {
-        println!("linia {}", g);
+        // println!("linia {}", g);
         let num: u32 = n.parse().unwrap_or_default();
         g_numeric.push(num);
     }
@@ -46,6 +49,21 @@ pub fn prepare_cards(card: &str) -> Card {
         winning: w_numeric,
         given: g_numeric,
     }
+}
+
+pub fn count_points(card: &Card) -> u32 {
+    let mut points = 0;
+    for g in card.given.clone() {
+        if card.winning.contains(&g) {
+            if points == 0 {
+                points += 1;
+            } else {
+                points *= 2;
+            }
+            println!("this is winnig {:?}", g);
+        }
+    }
+    points
 }
 
 pub fn read_lines(name: &str) -> Vec<String> {
