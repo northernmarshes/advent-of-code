@@ -17,7 +17,7 @@ pub fn process_part1(input: &str) -> String {
         let points = count_points(&card);
         result += points;
         println!("Punkty to {:?}", points);
-        // println!("winning: {:?}, given: {:?}", card.winning, card.given);
+        println!("winning: {:?}, given: {:?}", card.winning, card.given);
     }
     result.to_string()
 }
@@ -29,20 +29,22 @@ pub fn process_part2(_input: &str) -> String {
 
 pub fn prepare_cards(card: &str) -> Card {
     let mut parts = card.split("|").clone();
-    let w = parts.next().unwrap()[7..].to_string();
+    let w = parts.next().unwrap()[9..].to_string();
     let g = parts.next().unwrap().to_string();
     let mut w_numeric: Vec<u32> = Vec::new();
     let mut g_numeric: Vec<u32> = Vec::new();
 
     for n in w.trim().split(" ") {
         // println!("linia {}", n);
-        let num: u32 = n.parse().unwrap_or_default();
+        let num: u32 = n.trim().parse().unwrap_or_default();
         w_numeric.push(num);
     }
     for n in g.trim().split(" ") {
         // println!("linia {}", g);
-        let num: u32 = n.parse().unwrap_or_default();
-        g_numeric.push(num);
+        let num: u32 = n.trim().parse().unwrap_or_default();
+        if num != 0 {
+            g_numeric.push(num);
+        }
     }
 
     Card {
