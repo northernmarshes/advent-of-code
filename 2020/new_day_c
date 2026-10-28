@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+mkdir day-$1
+cd day-$1
+touch part_01.c part_02.c sample.txt input.txt
+
+cat <<EOT >>part_01.c
+#include <stdio.h>
+
+int main() {
+    return 0;
+}
+EOT
+
+cat <<EOT >>part_02.c
+#include <stdio.h>
+
+int main() {
+    return 0;
+}
+EOT
+
+echo "day-$1 created"
