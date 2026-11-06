@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# "complex" function
+unsure() {
+  if command -v "$1" >/dev/null 2>&1; then
+    man "$1"
+  else
+    echo "No $1 command! New day was NOT created."
+    echo "Correct arguments: <language> <year> <day>"
+    echo "Available languages: rust, bash, c"
+  fi
+}
+
+case "$1" in
+"rust") ./scripts/rust $2 $3 ;;
+"r") ./scripts/rust $2 $3 ;;
+"bash") ./scripts/bash $2 $3 ;;
+"b") ./scripts/bash $2 $3 ;;
+"c") ./scripts/c $2 $3 ;;
+*) unsure "$1" ;;
+esac
