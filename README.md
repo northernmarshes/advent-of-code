@@ -3,11 +3,11 @@
 |Year|Stars|Language|
 |:--:|:--:|:--:|
 |2026|||
-|2025|$\color{#ffff66}\large{\textbf{15☆}}$</font>/50☆|Python|
-|2024|$\color{#ffff66}\large{\textbf{10☆}}$</font>/50☆|Python|
-|2023|$\color{#ffff66}\large{\textbf{5☆}}$</font>/50☆|Rust|
-|2022|$\color{#ffff66}\large{\textbf{17☆}}$/50☆|Rust|
-|2021|$\color{#ffff66}\large{\textbf{5☆}}$/50☆|Bash|
+|2025|$\color{#ffff66}\large{\textbf{15☆}}$ /50☆|Python|
+|2024|$\color{#ffff66}\large{\textbf{10☆}}$ /50☆|Python|
+|2023|$\color{#ffff66}\large{\textbf{5☆}}$ /50☆|Rust|
+|2022|$\color{#ffff66}\large{\textbf{17☆}}$ /50☆|Rust|
+|2021|$\color{#ffff66}\large{\textbf{5☆}}$ /50☆|Bash|
 |2020|$\color{#ffff66}\large{\textbf{0☆}}$ /50☆|C|
 |2019|||
 |2018|||

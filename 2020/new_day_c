@@ -2,22 +2,36 @@
 
 mkdir day-$1
 cd day-$1
-touch part_01.c part_02.c sample.txt input.txt
+mkdir target src
+touch sample.txt input.txt
+cd src
+touch lib.c
+mkdir bin
+cd bin
+touch part_01.c part_02.c
 
 cat <<EOT >>part_01.c
 #include <stdio.h>
+#include "./lib.c"
 
 int main() {
+    printf("hello, world");
     return 0;
 }
 EOT
 
 cat <<EOT >>part_02.c
 #include <stdio.h>
+#include "part_01.c"
+#include "part_02.c"
 
 int main() {
+    printf("hello, world");
     return 0;
 }
 EOT
+
+cd ..
+cd ..
 
 echo "day-$1 created"
