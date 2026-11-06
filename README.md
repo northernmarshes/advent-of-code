@@ -17,6 +17,16 @@
 
 #### Total stars: $\color{#ffff66}\large{\textbf{52☆}}$
 
+## Automation
+
+The "newday" script creates a project for a new day. It's messy so use it on your own risk and feel free to adapt it to your own needs. It uses [aoc-cli](https://github.com/scarvalhojr/aoc-cli) as a dependency to fetch the puzzle and the input data. It supports languages listed in the scripts directory.
+
+### Example
+
+```bash
+./newday rust 2023 05
+```
+
 ## "Bloopers"
 
 2026-03-02
