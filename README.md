@@ -1,4 +1,4 @@
-### Score
+## Score
 
 |Year|Stars|Language|
 |:--:|:--:|:--:|
@@ -15,9 +15,9 @@
 |2016|||
 |2015|||
 
-### Total stars: $\color{#ffff66}\large{\textbf{52☆}}$
+#### Total stars: $\color{#ffff66}\large{\textbf{52☆}}$
 
-### "Bloopers"
+## "Bloopers"
 
 2026-03-02
 
