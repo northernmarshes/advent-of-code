@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-mkdir day-$1
-cd day-$1
+cd $1
+mkdir day-$2
+cd day-$2
 touch part_01 part_02 sample.txt input.txt
 echo "#!/usr/bin/env bash" >>part_01
 echo "#!/usr/bin/env bash" >>part_02
 chmod +x part_01 part_02
-echo "day-$1 created"
+echo "day-$2 created"

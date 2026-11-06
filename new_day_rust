@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-cargo new day-$1
-cd day-$1
-touch input.txt
+cd $1
+cargo new day-$2
+NOZERO=$(echo $2 | sed 's/^0*//')
+YEAR=${PWD##*/}
+cd day-$2
+aoc download -y $YEAR -d $NOZERO
+mv input input.txt
 touch sample.txt
 cd src
 

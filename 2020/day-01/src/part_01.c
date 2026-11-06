@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int part_1() {
+  int result;
+  printf("Hi there!");
+  return 0;
+}
+
+int open_file() {
 
   FILE *myFile;
-  myFile = fopen("sample.txt", "r");
+  myFile = fopen("./sample.txt", "r");
   char line[128];
 
   int numberArray[16];
@@ -31,4 +37,4 @@ int main() {
   // }
   fclose(myFile);
   return 0;
-}
+};

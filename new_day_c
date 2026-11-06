@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-mkdir day-$1
-cd day-$1
+cd $1
+mkdir day-$2
+cd day-$2
 mkdir target src
 touch sample.txt input.txt
 cd src
@@ -34,4 +35,4 @@ EOT
 cd ..
 cd ..
 
-echo "day-$1 created"
+echo "day-$2 created"
